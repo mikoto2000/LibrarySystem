@@ -1,0 +1,36 @@
+@startuml
+entity NdcCategory {
+  * id
+  --
+  * name
+  * number
+}
+
+entity Book {
+  * id
+  --
+  * ISBN
+  * title
+  * publication_date
+  * category(FK: NdcCategory(id))
+}
+
+entity Author {
+  * id
+  --
+  * firstname
+  * lastname
+}
+
+entity BookAuthorRelationship {
+  * id
+  --
+  * book_id (FK:Book(id))
+  * author_id (FK:Author(id))
+}
+
+Book ||-{ BookAuthorRelationship
+Book }o--|| NdcCategory
+BookAuthorRelationship }-|| Author
+
+@enduml
