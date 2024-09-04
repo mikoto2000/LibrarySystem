@@ -1,0 +1,85 @@
+<%%= form_with(model: <%= model_resource_name %>, html: { class: %w[form-control form-control-sm] }) do |form| -%>
+  <%%- if <%= singular_table_name %>.errors.any? -%>
+  <div style="color: red">
+    <h2><%%= t("errors.template.header", model: <%= class_name %>.model_name.human, count: <%= singular_name %>.errors.count) %></h2>
+
+    <ul>
+    <%% <%= singular_table_name %>.errors.each do |error| %>
+      <li><%%= error.full_message %></li>
+    <%%- end -%>
+    </ul>
+  </div>
+  <%%- end -%>
+
+  <%%- if <%= singular_table_name %>.persisted? -%>
+  <div>
+    <%%= form.label :id, style: "display: block" %>
+    <div class="ps-2">
+      <%%= form.number_field :id, class: %w[form-control form-control-sm], disabled: true %>
+    </div>
+  </div>
+  <%%- end -%>
+  <%- attributes.each do |attribute| -%>
+    <%- if attribute.password_digest? -%>
+  <div>
+    <%%= form.label :password, style: "display: block" %>
+    <div class="ps-2">
+      <%%= form.password_field :password, class: %w[form-control form-control-sm] %>
+    </div>
+  </div>
+
+  <div>
+    <%%= form.label :password_confirmation, style: "display: block" %>
+    <div class="ps-2">
+      <%%= form.password_field :password_confirmation, class: %w[form-control form-control-sm] %>
+    </div>
+  </div>
+    <%- elsif attribute.attachments? -%>
+  <div>
+    <%%= form.label :<%= attribute.column_name %>, style: "display: block"] %>
+    <div class="ps-2">
+      <%%= form.<%= attribute.field_type %> :<%= attribute.column_name %>, multiple: true, class: %w[form-control form-control-sm] %>
+    </div>
+  </div>
+    <%- else -%>
+      <%- if attribute.reference? -%>
+  <div>
+    <%%= form.label <%= plural_table_name.classify %>.reflect_on_association(:<%= attribute.name %>).foreign_key %>
+    <div class="ps-2">
+      <%%= form.collection_select(
+            <%= plural_table_name.classify %>.reflect_on_association(:<%= attribute.name %>).foreign_key,
+            <%= plural_table_name.classify %>.reflect_on_association(:<%= attribute.name %>).klass.all,
+            :id,
+            :name,
+            { include_blank: "選択なし" }
+          ) %>
+    </div>
+  </div>
+      <%- else -%>
+  <div>
+    <%%= form.label :<%= attribute.column_name %>, style: "display: block" %>
+    <div class="ps-2">
+      <%%= form.<%= attribute.field_type %> :<%= attribute.column_name %>, class: %w[form-control form-control-sm] %>
+    </div>
+  </div>
+      <%- end -%>
+    <%- end -%>
+  <%- end -%>
+  <%%- if <%= singular_table_name %>.persisted? -%>
+  <div>
+    <%%= form.label :created_at, style: "display: block" %>
+    <div class="ps-2">
+      <%%= form.datetime_field :created_at, class: %w[form-control form-control-sm], disabled: true %>
+    </div>
+  </div>
+  <div>
+    <%%= form.label :updated_at, style: "display: block" %>
+    <div class="ps-2">
+      <%%= form.datetime_field :updated_at, class: %w[form-control form-control-sm], disabled: true %>
+    </div>
+  </div>
+  <%%- end -%>
+  <div>
+    <%%= form.submit class: %w[btn btn-primary] %>
+  </div>
+<%% end %>

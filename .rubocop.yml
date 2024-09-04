@@ -1,0 +1,96 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rails
+  - rubocop-performance
+  - rubocop-minitest
+  - rubocop-i18n
+  - rubocop-thread_safety
+
+AllCops:
+  Exclude:
+    - "Gemfile"
+    - "lib/templates/**/*"
+    - "vendor/**/*"
+    - "bin/**/*"
+    - "config/**/*"
+    - "lib/templates/**/*"
+    - "test/test_helper.rb"
+    - "test/channels/application_cable/connection_test.rb"
+  SuggestExtensions: false
+  NewCops: enable
+
+# pribate メソッドは、さらに 1 段インデントを下げる
+#
+#     ok: private
+#           def foo()
+#           end
+#     ng: private
+#         def foo()
+#         end
+Layout/IndentationConsistency:
+  EnforcedStyle: indented_internal_methods
+
+# 直前行の先頭から 1 段インデントを下げる
+#
+#     ok: foo = bar.method1()
+#           .method2()
+#           .method3()
+#     ng: foo = bar.method1()
+#                 .method2()
+#                 .method3()
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+# 空ブロックは 1 行にまとめる
+#
+#     ok: {}
+#     ng: {
+#         }
+Lint/EmptyBlock:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+# 空メソッドは 1 行にまとめない
+#
+#     ok: def foo(bar)
+#         end
+#     ng: def foo(bar); end
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+
+# Rails の生成するコードが追加していないので無効化
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# Rails が生成するスキーマが年月日ごとにアンダーバーを入れた数字リテラルを使っているので、それを除外
+Style/NumericLiterals:
+  Exclude:
+    - db/schema.rb
+
+# 文字列リテラルはダブルクオーテーションで囲む
+#
+#     ok: "text"
+#     ng: 'text'
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+### test 関連
+
+Metrics/ClassLength:
+  Exclude:
+    - test/**/*
+
+# グループとしてひと塊にしたい assert があるので、無効化
+Minitest/EmptyLineBeforeAssertionMethods:
+  Enabled: false
+
+# 多くなりがちなので妥協の無効化
+Minitest/MultipleAssertions:
+  Enabled: false
+
+# gettext は使わないので無効化する
+I18n/GetText:
+  Enabled: false

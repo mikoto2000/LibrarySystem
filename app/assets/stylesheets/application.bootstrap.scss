@@ -1,0 +1,9 @@
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons';
+
+@import "tom-select/dist/css/tom-select.bootstrap5";
+
+/* アコーディオンのヘッダーに色付け */
+.accordion {
+  --bs-accordion-bg: var(--bs-accordion-active-bg);
+}

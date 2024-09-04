@@ -1,0 +1,71 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t "hello"
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t("hello") %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   "true": "foo"
+#
+# To learn more, please read the Rails Internationalization guide
+# available at https://guides.rubyonrails.org/i18n.html.
+
+ja:
+  date:
+    formats:
+      default: "%Y/%m/%d"
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M:%S %Z"
+  datetime:
+    formats:
+      default: "%Y/%m/%d %H:%M:%S %Z"
+  helpers:
+    submit:
+      create: 作成
+      update: 更新
+      delete: 削除
+      clear: クリア
+    dialog:
+      delete: "id: %{id} を、本当に削除しますか？"
+  controller:
+    edit:
+      success: "%{model} の更新に成功しました。"
+    create:
+      success: "%{model} の作成に成功しました。"
+    destroy:
+      success: "%{model} の削除に成功しました。"
+  view:
+    index:
+      operation: 操作
+      search_condition: 検索条件設定
+      update_item_per_page: 1 ページ毎の%{model}数を変更する
+    show:
+      move_to_update: この%{model}を更新
+      move_to_index: 一覧へ戻る
+    edit:
+      title: "%{model}を編集"
+      move_to_show: この%{model}の詳細表示へ移動
+      move_to_index: 一覧へ戻る
+    new:
+      title: "%{model}を作成"
+      move_to_index: 一覧へ戻る

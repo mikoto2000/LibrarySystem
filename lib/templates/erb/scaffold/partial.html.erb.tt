@@ -1,0 +1,60 @@
+<div id="<%%= dom_id <%= singular_name %> %>">
+  <table class="table table-hover">
+    <tr>
+      <td>
+        <strong>Id:</strong>
+      </td>
+      <td>
+        <%%= <%= singular_name %>.id %>
+      </td>
+    </tr>
+<%- attributes.reject(&:password_digest?).each do |attribute| -%>
+    <tr>
+      <td>
+        <strong>
+          <%%= <%= class_name %>.human_attribute_name(:<%= attribute.column_name %>) %>
+        </strong>
+      </td>
+      <td>
+  <%- if attribute.attachment? -%>
+        <%%= link_to <%= singular_name %>.<%= attribute.column_name %>.filename, <%= singular_name %>.<%= attribute.column_name %> if <%= singular_name %>.<%= attribute.column_name %>.attached? %>
+  <%- elsif attribute.attachments? -%>
+    <%% <%= singular_name %>.<%= attribute.column_name %>.each do |<%= attribute.singular_name %>| %>
+        <div><%%= link_to <%= attribute.singular_name %>.filename, <%= attribute.singular_name %> %></div>
+    <%% end %>
+  <%- else -%>
+    <%- if attribute.reference? -%>
+        <%%= <%= singular_name %>.<%= attribute.name.underscore %>.name %>
+    <%- else -%>
+      <%- if attribute.type.to_s == "timestamp" || attribute.type.to_s == "datetime" || attribute.type.to_s == "date" -%>
+        <%%= <%= singular_name %>.<%= attribute.column_name %> && l(<%= singular_name %>.<%= attribute.column_name %>) %>
+      <%- else -%>
+        <%%= <%= singular_name %>.<%= attribute.column_name %> %>
+      <%- end -%>
+    <%- end -%>
+  <%- end -%>
+      </td>
+    </tr>
+<%- end -%>
+    <tr>
+      <td>
+        <strong>
+          <%%= <%= class_name %>.human_attribute_name(:created_at) %>
+        </strong>
+      </td>
+      <td>
+        <%%= <%= singular_name %>.created_at && l(<%= singular_name %>.created_at) %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%%= <%= class_name %>.human_attribute_name(:updated_at) %>
+        </strong>
+      </td>
+      <td>
+        <%%= <%= singular_name %>.updated_at && l(<%= singular_name %>.updated_at) %>
+      </td>
+    </tr>
+  </table>
+</div>

@@ -1,0 +1,68 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+<%- date = Time.current -%>
+<% unless attributes.empty? -%>
+<% %w(one two dummy).each do |name| %>
+<%= name %>:
+<% attributes.each do |attribute| -%>
+  <%- if attribute.password_digest? -%>
+  password_digest: <%%= BCrypt::Password.create("secret") %>
+  <%- elsif attribute.reference? -%>
+  <%= yaml_key_value(attribute.column_name.delete_suffix("_id"), name) %>
+  <%- elsif !attribute.virtual? -%>
+    <%- if attribute.type.to_s == "date" -%>
+  <%= yaml_key_value(attribute.column_name, date.to_date) %>
+      <%- date = date.since(1.days) -%>
+    <%- elsif attribute.type.to_s == "timestamp" -%>
+  <%= yaml_key_value(attribute.column_name, date) %>
+      <%- date = date.since(1.days) -%>
+    <%- else -%>
+  <%= yaml_key_value(attribute.column_name, name) %>
+    <%- end -%>
+  <%- end -%>
+  <%- if attribute.polymorphic? -%>
+  <%= yaml_key_value("#{attribute.name}_type", attribute.human_name) %>
+  <%- end -%>
+<% end -%>
+  created_at: <%= date %><%- date = date.since(1.days) %>
+  updated_at: <%= date %><%- date = date.since(1.days) %>
+<% end -%>
+
+destroy_target:
+<%- attributes.each do |attribute| -%>
+  <%- if attribute.password_digest? -%>
+  password_digest: <%%= BCrypt::Password.create("secret") %>
+  <%- elsif attribute.reference? -%>
+  <%= yaml_key_value(attribute.column_name.delete_suffix("_id"), :dummy) %>
+  <%- elsif !attribute.virtual? -%>
+    <%- if attribute.type.to_s == "date" -%>
+  <%= yaml_key_value(attribute.column_name, date.to_date) %>
+      <%- date = date.since(1.days) -%>
+    <%- elsif attribute.type.to_s == "timestamp" -%>
+  <%= yaml_key_value(attribute.column_name, date) %>
+      <%- date = date.since(1.days) -%>
+    <%- else -%>
+  <%= yaml_key_value(attribute.column_name, name) %>
+    <%- end -%>
+  <%- end -%>
+  <%- if attribute.polymorphic? -%>
+  <%= yaml_key_value("#{attribute.name}_type", attribute.human_name) %>
+  <%- end -%>
+<%- end -%>
+  created_at: <%= date %><%- date = date.since(1.days) %>
+  updated_at: <%= date %><%- date = date.since(1.days) %>
+<% else -%>
+
+# This model initially had no columns defined. If you add columns to the
+# model remove the "{}" from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+one: {}
+# column: value
+#
+two: {}
+# column: value
+dummy: {}
+# column: value
+destroy_target: {}
+# column: value
+<% end -%>

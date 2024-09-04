@@ -1,0 +1,16 @@
+<p style="color: green"><%%= notice %></p>
+
+<h1><%%= <%= class_name %>.model_name.human %></h1>
+
+<%%= render @<%= singular_table_name %> %>
+
+<div>
+  <%%= link_to t("view.show.move_to_update", model: <%= class_name %>.model_name.human), <%= edit_helper(type: :path) %> %> |
+  <%%= link_to t("view.show.move_to_index", model: <%= class_name %>.model_name.human.pluralize), <%= index_helper(type: :path) %> %>
+
+  <%%= button_to t("helpers.submit.delete"),
+                <%= model_resource_name(prefix: "@") %>,
+                method: :delete,
+                class: %w[btn btn-primary],
+                data: { turbo_confirm: t("helpers.dialog.delete", id: @<%= singular_name %>.id) } %>
+</div>

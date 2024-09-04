@@ -1,0 +1,231 @@
+require "test_helper"
+
+<% module_namespacing do -%>
+class <%= controller_class_name %>ControllerTest < ActionDispatch::IntegrationTest
+  <%- if mountable_engine? -%>
+  include Engine.routes.url_helpers
+
+  <%- end -%>
+  setup do
+    @<%= singular_table_name %> = <%= fixture_name %>(:one)
+  end
+
+  test "should get index" do
+    get <%= index_helper(type: :url) %>
+    assert_response :success
+  end
+
+  test "should get index find by id" do
+    get <%= index_helper(type: :url) %>, params: { q: { id_eq: @<%= singular_table_name %>.id } }
+    assert_response :success
+
+    assert_select "table > tbody > tr", count: 1
+    assert_select "table > tbody > tr:nth-of-type(1) > td", text: @<%= singular_table_name %>.id.to_s
+  end
+<%- attribute_index = 2 -%>
+<%- attributes.each do |attribute| -%>
+  <%- if attribute.reference? -%>
+  test "should get index search <%= attribute.name %>s" do
+    search_ids = [<%= table_name %>(:one).role_id, <%= table_name %>(:two).role_id]
+    get <%= index_helper(type: :url) %>, params: { q: { <%= attribute.name %>_id_in: search_ids } }
+    assert_response :success
+
+    assert_select "table > tbody > tr", count: 2
+    assert_select "table > tbody > tr > td:nth-of-type(<%= attribute_index %>)", text: @<%= singular_table_name %>.<%= attribute.name %>.name # one
+    assert_select "table > tbody > tr > td:nth-of-type(<%= attribute_index %>)", text: @<%= singular_table_name %>.<%= attribute.name %>.name # two
+  end
+  <%- elsif attribute.type.to_s == "date" -%>
+  test "should get index search <%= attribute.name %>" do
+    target_date = @<%= singular_table_name %>.<%= attribute.name %>
+    get <%= index_helper(type: :url) %>, params: { q: {
+      <%= attribute.name %>_gteq: target_date,
+      <%= attribute.name %>_lteq_end_of_day: target_date
+    } }
+    assert_response :success
+
+    assert_select "table > tbody > tr", count: 1
+    assert_select "table > tbody > tr > td:nth-of-type(<%= attribute_index %>)", text: I18n.l(target_date) # one
+  end
+
+  test "should get index search <%= attribute.name %>, multi hit" do
+    target_datetime_from = <%= table_name %>(:one).<%= attribute.name %>
+    target_datetime_to = <%= table_name %>(:two).<%= attribute.name %>
+    get <%= index_helper(type: :url) %>, params: { q: {
+      <%= attribute.name %>_gteq: target_datetime_from,
+      <%= attribute.name %>_lteq_end_of_day: target_datetime_to
+    } }
+    assert_response :success
+
+    assert_select "table > tbody > tr", count: 2
+    assert_select "table > tbody > tr > td:nth-of-type(<%= attribute_index %>)", text: I18n.l(target_datetime_from) # one
+    assert_select "table > tbody > tr > td:nth-of-type(<%= attribute_index %>)", text: I18n.l(target_datetime_to) # two
+  end
+
+  test "should get index search <%= attribute.name %>, no hit" do
+    target_datetime_from = Time.at(0, in: "UTC")
+    target_datetime_to = Time.at(0, in: "UTC")
+    get <%= index_helper(type: :url) %>, params: { q: {
+      <%= attribute.name %>_gteq: target_datetime_from,
+      <%= attribute.name %>_lteq_end_of_day: target_datetime_to
+    } }
+    assert_response :success
+
+    assert_select "table > tbody > tr", count: 0
+  end
+  <%- elsif attribute.type.to_s == "timestamp" -%>
+  test "should get index search <%= attribute.name %>, single hit" do
+    target_datetime = @<%= singular_table_name %>.<%= attribute.name %>
+    get <%= index_helper(type: :url) %>, params: { q: {
+      <%= attribute.name %>_gteq: target_datetime,
+      <%= attribute.name %>_lteq_end_of_minute: target_datetime
+    } }
+    assert_response :success
+
+    assert_select "table > tbody > tr", count: 1
+    assert_select "table > tbody > tr > td:nth-of-type(<%= attribute_index %>)", text: I18n.l(target_datetime_minute) # one
+  end
+
+  test "should get index search <%= attribute.name %>, multi hit" do
+    target_datetime_from = <%= table_name %>(:one).<%= attribute.name %>
+    target_datetime_to = <%= table_name %>(:two).<%= attribute.name %>
+    get <%= index_helper(type: :url) %>, params: { q: {
+      <%= attribute.name %>_gteq: target_datetime_from,
+      <%= attribute.name %>_lteq_end_of_minute: target_datetime_to
+    } }
+    assert_response :success
+
+    assert_select "table > tbody > tr", count: 2
+    assert_select "table > tbody > tr > td:nth-of-type(<%= attribute_index %>)", text: I18n.l(target_datetime_from) # one
+    assert_select "table > tbody > tr > td:nth-of-type(<%= attribute_index %>)", text: I18n.l(target_datetime_to) # two
+  end
+
+  test "should get index search <%= attribute.name %>, no hit" do
+    target_datetime_from = Time.at(0, in: "UTC")
+    target_datetime_to = Time.at(0, in: "UTC")
+    get <%= index_helper(type: :url) %>, params: { q: {
+      <%= attribute.name %>_gteq: target_datetime_from,
+      <%= attribute.name %>_lteq_end_of_minute: target_datetime_to
+    } }
+    assert_response :success
+
+    assert_select "table > tbody > tr", count: 0
+  end
+  <%- else -%>
+  test "should get index search <%= attribute.name %>" do
+    search_string = @<%= singular_table_name %>.<%= attribute.name %>
+    get <%= index_helper(type: :url) %>, params: { q: { <%= attribute.name %>_cont: search_string } }
+    assert_response :success
+
+    assert_select "table > tbody > tr", count: 1
+    assert_select "table > tbody > tr > td:nth-of-type(<%= attribute_index %>)", text: search_string # one
+  end
+
+  test "should get index search <%= attribute.name %>, multi hit" do
+    search_string = "o" # `o`ne, tw`o`, destr`o`y_target.
+    get <%= index_helper(type: :url) %>, params: { q: { <%= attribute.name %>_cont: search_string } }
+    assert_response :success
+
+    assert_select "table > tbody > tr", count: 3
+    assert_select "table > tbody > tr > td:nth-of-type(<%= attribute_index %>)", text: <%= table_name %>(:one).name # one
+    assert_select "table > tbody > tr > td:nth-of-type(<%= attribute_index %>)", text: <%= table_name %>(:two).name # two
+    assert_select "table > tbody > tr > td:nth-of-type(<%= attribute_index %>)", text: <%= table_name %>(:destroy_target).name # destroy_target
+  end
+  <%- end -%>
+  <%- attribute_index += 1 -%>
+<%- end -%>
+
+  test "should get index search created_at single hit" do
+    target_datetime = @<%= singular_table_name %>.created_at
+    get <%= index_helper(type: :url) %>, params: { q: {
+      created_at_gteq: target_datetime,
+      created_at_lteq_end_of_minute: target_datetime
+    } }
+    assert_response :success
+
+    assert_select "table > tbody > tr", count: 1
+    assert_select "table > tbody > tr > td:nth-of-type(<%= attribute_index %>)", text: I18n.l(target_datetime) # one
+  end
+
+  test "should get index search created_at, multi hit" do
+    target_datetime_from = <%= table_name %>(:one).created_at
+    target_datetime_to = <%= table_name %>(:two).created_at
+    get <%= index_helper(type: :url) %>, params: { q: {
+      created_at_gteq: target_datetime_from,
+      created_at_lteq_end_of_minute: target_datetime_to
+    } }
+    assert_response :success
+
+    assert_select "table > tbody > tr", count: 2
+    assert_select "table > tbody > tr > td:nth-of-type(<%= attribute_index %>)", text: I18n.l(target_datetime_from) # one
+    assert_select "table > tbody > tr > td:nth-of-type(<%= attribute_index %>)", text: I18n.l(target_datetime_to) # two
+  end
+<%- attribute_index += 1 -%>
+
+  test "should get index search updated_at" do
+    target_datetime = @<%= singular_table_name %>.updated_at
+    get <%= index_helper(type: :url) %>, params: { q: {
+      updated_at_gteq: target_datetime,
+      updated_at_lteq_end_of_minute: target_datetime
+    } }
+    assert_response :success
+
+    assert_select "table > tbody > tr", count: 1
+    assert_select "table > tbody > tr > td:nth-of-type(<%= attribute_index %>)", text: I18n.l(target_datetime) # one
+  end
+
+  test "should get index search updated_at, multi hit" do
+    target_datetime_from = <%= table_name %>(:one).updated_at
+    target_datetime_to = <%= table_name %>(:two).updated_at
+    get <%= index_helper(type: :url) %>, params: { q: {
+      updated_at_gteq: target_datetime_from,
+      updated_at_lteq_end_of_minute: target_datetime_to
+    } }
+    assert_response :success
+
+    assert_select "table > tbody > tr", count: 2
+    assert_select "table > tbody > tr > td:nth-of-type(<%= attribute_index %>)", text: I18n.l(target_datetime_from) # one
+    assert_select "table > tbody > tr > td:nth-of-type(<%= attribute_index %>)", text: I18n.l(target_datetime_to) # two
+  end
+
+  test "should get new" do
+    get <%= new_helper %>
+    assert_response :success
+  end
+
+  test "should create <%= singular_table_name %>" do
+    assert_difference("<%= class_name %>.count") do
+      post <%= index_helper(type: :url) %>, params: { <%= "#{singular_table_name}: {
+        #{attributes_string}
+      }" %> }
+    end
+
+    assert_redirected_to <%= show_helper("#{class_name}.last") %>
+  end
+
+  test "should show <%= singular_table_name %>" do
+    get <%= show_helper %>
+    assert_response :success
+  end
+
+  test "should get edit" do
+    get <%= edit_helper %>
+    assert_response :success
+  end
+
+  test "should update <%= singular_table_name %>" do
+    patch <%= show_helper %>, params: { <%= "#{singular_table_name}: {
+      #{attributes_string}
+    }" %> }
+    assert_redirected_to <%= show_helper %>
+  end
+
+  test "should destroy <%= singular_table_name %>" do
+    <%= singular_table_name %> = <%= fixture_name %>(:destroy_target)
+    assert_difference("<%= class_name %>.count", -1) do
+      delete <%= singular_route_name %>_url(<%= singular_table_name %>)
+    end
+
+    assert_redirected_to <%= index_helper(type: :url) %>
+  end
+end
+<% end -%>

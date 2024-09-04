@@ -1,0 +1,5 @@
+<% module_namespacing do -%>
+module <%= class_name %>Helper
+  include Pagy::Frontend
+end
+<% end -%>

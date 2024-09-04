@@ -1,0 +1,8 @@
+<h1><%%= t("view.new.title", model: <%= class_name %>.model_name.human) %></h1>
+<%%= render "form", <%= singular_table_name %>: @<%= singular_table_name %> %>
+
+<br>
+
+<div>
+  <%%= link_to t("view.new.move_to_index", model: <%= class_name %>.model_name.human.pluralize), <%= index_helper(type: :path) %> %>
+</div>
