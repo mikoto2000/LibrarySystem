@@ -1,0 +1,9 @@
+<h1><%= t("view.edit.title", model: NdcCategory.model_name.human) %></h1>
+<%= render "form", ndc_category: @ndc_category %>
+
+<br>
+
+<div>
+  <%= link_to t("view.edit.move_to_show", model: NdcCategory.model_name.human), @ndc_category %> |
+  <%= link_to t("view.edit.move_to_index", model: NdcCategory.model_name.human.pluralize), ndc_categories_path %>
+</div>

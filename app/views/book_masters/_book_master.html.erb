@@ -1,0 +1,72 @@
+<div id="<%= dom_id book_master %>">
+  <table class="table table-hover">
+    <tr>
+      <td>
+        <strong>Id:</strong>
+      </td>
+      <td>
+        <%= book_master.id %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= BookMaster.human_attribute_name(:isbn) %>
+        </strong>
+      </td>
+      <td>
+        <%= book_master.isbn %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= BookMaster.human_attribute_name(:title) %>
+        </strong>
+      </td>
+      <td>
+        <%= book_master.title %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= BookMaster.human_attribute_name(:publication_date) %>
+        </strong>
+      </td>
+      <td>
+        <%= book_master.publication_date && l(book_master.publication_date) %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= BookMaster.human_attribute_name(:ndc_category_id) %>
+        </strong>
+      </td>
+      <td>
+        <%= book_master.ndc_category.name %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= BookMaster.human_attribute_name(:created_at) %>
+        </strong>
+      </td>
+      <td>
+        <%= book_master.created_at && l(book_master.created_at) %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= BookMaster.human_attribute_name(:updated_at) %>
+        </strong>
+      </td>
+      <td>
+        <%= book_master.updated_at && l(book_master.updated_at) %>
+      </td>
+    </tr>
+  </table>
+</div>

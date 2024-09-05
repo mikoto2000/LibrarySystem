@@ -1,0 +1,9 @@
+<h1><%= t("view.edit.title", model: BookMaster.model_name.human) %></h1>
+<%= render "form", book_master: @book_master %>
+
+<br>
+
+<div>
+  <%= link_to t("view.edit.move_to_show", model: BookMaster.model_name.human), @book_master %> |
+  <%= link_to t("view.edit.move_to_index", model: BookMaster.model_name.human.pluralize), book_masters_path %>
+</div>

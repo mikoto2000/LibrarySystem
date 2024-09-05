@@ -1,0 +1,33 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  isbn: one
+  title: one
+  publication_date: 2024-09-05
+  ndc_category: one
+  created_at: 2024-09-06 20:49:43 +0900
+  updated_at: 2024-09-07 20:49:43 +0900
+
+two:
+  isbn: two
+  title: two
+  publication_date: 2024-09-08
+  ndc_category: two
+  created_at: 2024-09-09 20:49:43 +0900
+  updated_at: 2024-09-10 20:49:43 +0900
+
+dummy:
+  isbn: dummy
+  title: dummy
+  publication_date: 2024-09-11
+  ndc_category: dummy
+  created_at: 2024-09-12 20:49:43 +0900
+  updated_at: 2024-09-13 20:49:43 +0900
+
+destroy_target:
+  isbn: BookMaster
+  title: BookMaster
+  publication_date: 2024-09-14
+  ndc_category: dummy
+  created_at: 2024-09-15 20:49:43 +0900
+  updated_at: 2024-09-16 20:49:43 +0900
