@@ -61,3 +61,11 @@ db マイグレーション。
 ```sh
 sudo BINDING=0.0.0.0 ./bin/dev
 ```
+
+db へ初期値を入力。
+`db/seeds.rb` へ初期値入力処理を記載したうえで、以下を実行。
+
+```sh
+./bin/rails db:seed
+```
+
