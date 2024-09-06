@@ -3,7 +3,7 @@
   <header class="main-content-header">
     <p style="color: green"><%= notice %></p>
 
-    <h1><%= NdcCategory.model_name.human %><%= link_to "", new_ndc_category_path, class: %w[bi bi-plus-circle-fill ms-2] %></h1>
+    <h1><%= Author.model_name.human %><%= link_to "", new_author_path, class: %w[bi bi-plus-circle-fill ms-2] %></h1>
 
   <div class="accordion">
     <div class="accordion-item">
@@ -28,14 +28,6 @@
           <%= f.label :name_cont %>
           <div class="ps-2">
             <%= f.search_field :name_cont, class: %w[form-control form-control-sm] %>
-          </div>
-        </div>
-        <div>
-          <%= f.label :number %>
-          <div class="ps-2">
-            <%= f.number_field :number_gteq, class: %w[form-control form-control-sm] %>
-            ～
-            <%= f.number_field :number_lteq, class: %w[form-control form-control-sm] %>
           </div>
         </div>
         <div>
@@ -68,37 +60,35 @@
 
   <main style="flex-grow: 1;flex-shrink: 1;overflow-y: auto;">
 <%= turbo_frame_tag "list" do %>
-  <div id="ndc_categories" class="text-nowrap">
+  <div id="authors" class="text-nowrap">
     <table class="table table-hover text-nowrap">
       <thead class="table-light sticky-top">
         <th><%= sort_link(@q, :id, default_order: :asc, class: "d-block") %></th>
         <th><%= sort_link(@q, :name, default_order: :asc, class: "d-block") %></th>
-        <th><%= sort_link(@q, :number, default_order: :asc, class: "d-block") %></th>
         <th><%= sort_link(@q, :created_at, default_order: :asc, class: "d-block") %></th>
         <th><%= sort_link(@q, :updated_at, default_order: :asc, class: "d-block") %></th>
         <th><%= t("view.index.operation") %></th>
       </thead>
       <tbody>
-  <%- @ndc_categories.each do |ndc_category| %>
+  <%- @authors.each do |author| %>
         <tr
           tabindex="0"
           role="button"
-          onkeypress="handleEnterKeypressListIten(arguments[0], this, '<%= url_target(nil, ndc_category).to_s %>')"
-          onclick="handleClickListItem(arguments[0], this, '<%= url_target(nil, ndc_category).to_s %>')">
-          <td><%= ndc_category.id %></td>
-          <td><%= ndc_category.name %></td>
-          <td><%= ndc_category.number %></td>
-          <td><%= ndc_category.created_at && l(ndc_category.created_at) %></td>
-          <td><%= ndc_category.updated_at && l(ndc_category.updated_at) %></td>
+          onkeypress="handleEnterKeypressListIten(arguments[0], this, '<%= url_target(nil, author).to_s %>')"
+          onclick="handleClickListItem(arguments[0], this, '<%= url_target(nil, author).to_s %>')">
+          <td><%= author.id %></td>
+          <td><%= author.name %></td>
+          <td><%= author.created_at && l(author.created_at) %></td>
+          <td><%= author.updated_at && l(author.updated_at) %></td>
           <td>
             <%= button_to(
                   t("helpers.submit.delete"),
-                  ndc_category,
+                  author,
                   method: :delete,
                   tabindex: 0,
                   class: %w[btn btn-primary],
                   onclick: "handleDeleteListItem(arguments[0], this)",
-                  data: { turbo_confirm: t("helpers.dialog.delete", id: ndc_category.id) }
+                  data: { turbo_confirm: t("helpers.dialog.delete", id: author.id) }
                 ) %>
           </td>
         </tr>
@@ -108,9 +98,9 @@
   </div>
   <div>
     <%== pagy_bootstrap_nav(@pagy) %>
-    <%== pagy_limit_selector_js(@pagy, item_name: "Ndc category".pluralize(@pagy.count), id: "pagy-limit-selector") %>
+    <%== pagy_limit_selector_js(@pagy, item_name: "Author".pluralize(@pagy.count), id: "pagy-limit-selector") %>
     <%= link_to(
-          t("view.index.update_item_per_page", model: NdcCategory.model_name.human),
+          t("view.index.update_item_per_page", model: Author.model_name.human),
           "javascript:void(0);",
           onClick: "updateItemPerPage(arguments[0],
           this)"

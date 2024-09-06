@@ -100,7 +100,7 @@
             <%%= f.datetime_field :updated_at_lteq_end_of_minute, class: %w[form-control form-control-sm] %>
           </div>
         </div>
-        <%%= f.hidden_field :limit, id: "f-limit", value: params[:limit] %>
+        <%%= f.hidden_field :limit, id: "f-limit", value: params[:limit] || Pagy::DEFAULT[:limit] %>
         <%%= f.submit class: %w[btn btn-primary] %>
         <input
           type="reset"

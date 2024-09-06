@@ -49,6 +49,18 @@
           ) %>
     </div>
   </div>
+  <div>
+    <%= form.label :author %>
+    <div class="ps-2">
+      <%= form.collection_select(
+            :author_ids,
+            Author.all,
+            :id,
+            :name,
+            { multiple: true }
+          ) %>
+    </div>
+  </div>
   <%- if book_master.persisted? -%>
   <div>
     <%= form.label :created_at, style: "display: block" %>

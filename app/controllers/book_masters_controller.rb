@@ -61,6 +61,6 @@ class BookMastersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def book_master_params
-      params.require(:book_master).permit(:isbn, :title, :publication_date, :ndc_category_id)
+      params.require(:book_master).permit(:isbn, :title, :publication_date, :ndc_category_id, {author_id: []})
     end
 end

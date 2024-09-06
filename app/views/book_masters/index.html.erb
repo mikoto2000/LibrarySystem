@@ -58,6 +58,19 @@
           </div>
         </div>
         <div>
+          <%= f.label :author.to_s + "_in".to_s %>
+          <div class="ps-2">
+            <%= f.collection_select(
+                  :book_author_relationship_author_id.to_s + "_in".to_s,
+                  Author.all,
+                  :id,
+                  :name,
+                  {},
+                  { multiple: true }
+                ) %>
+          </div>
+        </div>
+        <div>
           <%= f.label :created_at %>
           <div class="ps-2">
             <%= f.datetime_field :created_at_gteq, class: %w[form-control form-control-sm] %>
@@ -73,7 +86,7 @@
             <%= f.datetime_field :updated_at_lteq_end_of_minute, class: %w[form-control form-control-sm] %>
           </div>
         </div>
-        <%= f.hidden_field :limit, id: "f-limit", value: params[:limit] %>
+        <%= f.hidden_field :limit, id: "f-limit", value: params[:limit] || Pagy::DEFAULT[:limit] %>
         <%= f.submit class: %w[btn btn-primary] %>
         <input
           type="reset"
@@ -95,6 +108,7 @@
         <th><%= sort_link(@q, :title, default_order: :asc, class: "d-block") %></th>
         <th><%= sort_link(@q, :publication_date, default_order: :asc, class: "d-block") %></th>
         <th><%= sort_link(@q, :ndc_category_id, default_order: :asc, class: "d-block") %></th>
+        <th><%= sort_link(@q, :author, default_order: :asc, class: "d-block") %></th>
         <th><%= sort_link(@q, :created_at, default_order: :asc, class: "d-block") %></th>
         <th><%= sort_link(@q, :updated_at, default_order: :asc, class: "d-block") %></th>
         <th><%= t("view.index.operation") %></th>
@@ -111,6 +125,7 @@
           <td><%= book_master.title %></td>
           <td><%= book_master.publication_date && l(book_master.publication_date) %></td>
           <td><%= book_master.ndc_category.name %></td>
+          <td><%= book_master.authors.map{|author| author.name }.join(", ") %></td>
           <td><%= book_master.created_at && l(book_master.created_at) %></td>
           <td><%= book_master.updated_at && l(book_master.updated_at) %></td>
           <td>

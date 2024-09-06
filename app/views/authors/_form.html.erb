@@ -1,0 +1,45 @@
+<%= form_with(model: author, html: { class: %w[form-control form-control-sm] }) do |form| -%>
+  <%- if author.errors.any? -%>
+  <div style="color: red">
+    <h2><%= t("errors.template.header", model: Author.model_name.human, count: author.errors.count) %></h2>
+
+    <ul>
+    <% author.errors.each do |error| %>
+      <li><%= error.full_message %></li>
+    <%- end -%>
+    </ul>
+  </div>
+  <%- end -%>
+
+  <%- if author.persisted? -%>
+  <div>
+    <%= form.label :id, style: "display: block" %>
+    <div class="ps-2">
+      <%= form.number_field :id, class: %w[form-control form-control-sm], disabled: true %>
+    </div>
+  </div>
+  <%- end -%>
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <div class="ps-2">
+      <%= form.text_field :name, class: %w[form-control form-control-sm] %>
+    </div>
+  </div>
+  <%- if author.persisted? -%>
+  <div>
+    <%= form.label :created_at, style: "display: block" %>
+    <div class="ps-2">
+      <%= form.datetime_field :created_at, class: %w[form-control form-control-sm], disabled: true %>
+    </div>
+  </div>
+  <div>
+    <%= form.label :updated_at, style: "display: block" %>
+    <div class="ps-2">
+      <%= form.datetime_field :updated_at, class: %w[form-control form-control-sm], disabled: true %>
+    </div>
+  </div>
+  <%- end -%>
+  <div>
+    <%= form.submit class: %w[btn btn-primary] %>
+  </div>
+<% end %>

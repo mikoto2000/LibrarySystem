@@ -10,9 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_05_114943) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_06_035657) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "authors", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "book_author_relationships", force: :cascade do |t|
+    t.bigint "book_master_id", null: false
+    t.bigint "author_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_book_author_relationships_on_author_id"
+    t.index ["book_master_id"], name: "index_book_author_relationships_on_book_master_id"
+  end
 
   create_table "book_masters", force: :cascade do |t|
     t.string "isbn"
@@ -31,5 +46,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_05_114943) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "book_author_relationships", "authors"
+  add_foreign_key "book_author_relationships", "book_masters"
   add_foreign_key "book_masters", "ndc_categories"
 end
