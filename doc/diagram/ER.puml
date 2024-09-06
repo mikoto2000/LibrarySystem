@@ -4,48 +4,48 @@ package "貸出管理" {
 
   entity BookStock {
     * id
-      --
-      * book_id (FK: Book(id))
-      * status (FK: BookStatus(id))
-      memo
+    --
+    * book_id (FK: Book(id))
+    * status (FK: BookStatus(id))
+    memo
   }
 
   entity BookStockStatus {
     * id
-      --
-      * name
+    --
+    * name
   }
 
   note bottom: 貸出可能, 貸出不可, 破棄\n図書館の実務的には「貸出不可」を細分化すべきかもしれない？
 
   entity Customer {
     * id
-      --
-      * name
-      * email_address
+    --
+    * name
+    * email_address
   }
 
   entity Lending {
     * id
-      --
-      * lending_set_id (FK: LendingSet(id))
-      * customer_id (FK: Customer(id))
-      * book_stock_id (FK: BookStock(id))
+    --
+    * lending_set_id (FK: LendingSet(id))
+    * customer_id (FK: Customer(id))
+    * book_stock_id (FK: BookStock(id))
   }
 
   entity LendingSet {
     * id
-      --
-      * LendingSetStatus (FK: LendingStatus(id))
-      * lend_start_date
-      * return_deadline_date
-      return_date
+    --
+    * LendingSetStatus (FK: LendingStatus(id))
+    * lend_start_date
+    * return_deadline_date
+    return_date
   }
 
   entity LendingStatus {
     * id
-      --
-      * name
+    --
+    * name
   }
 
   note bottom: 貸出中, 貸出期限超過, 返却済み
@@ -56,32 +56,31 @@ package "書籍管理" {
 
   entity NdcCategory {
     * id
-      --
-      * name
-      * number
+    --
+    * name
+    * number
   }
 
   entity BookMaster {
     * id
-      --
-      * ISBN (UNIQUE)
-      * title
-      * publication_date
-      * category(FK: NdcCategory(id))
+    --
+    * ISBN (UNIQUE)
+    * title
+    * publication_date
+    * category(FK: NdcCategory(id))
   }
 
   entity Author {
     * id
-      --
-      * firstname
-      * lastname
+    --
+    * name
   }
 
   entity BookAuthorRelationship {
     * id
-      --
-      * book_id (FK:Book(id))
-      * author_id (FK:Author(id))
+    --
+    * book_id (FK:Book(id))
+    * author_id (FK:Author(id))
   }
 
 }
@@ -102,9 +101,9 @@ LendingStatus - LendingSet
 
 entity "<テーブル名>" {
   * 主キー
-    --
-    カラム
-    * 必須カラム
+  --
+  カラム
+  * 必須カラム
 }
 
 @enduml
