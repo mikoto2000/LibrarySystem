@@ -31,6 +31,16 @@
     <tr>
       <td>
         <strong>
+          <%= BookMaster.human_attribute_name(:author) %>
+        </strong>
+      </td>
+      <td>
+        <%= book_master.authors.map{|a| a.name}.join(", ") %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
           <%= BookMaster.human_attribute_name(:publication_date) %>
         </strong>
       </td>
