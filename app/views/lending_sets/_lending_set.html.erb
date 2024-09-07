@@ -1,0 +1,92 @@
+<div id="<%= dom_id lending_set %>">
+  <table class="table table-hover">
+    <tr>
+      <td>
+        <strong>Id:</strong>
+      </td>
+      <td>
+        <%= lending_set.id %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= LendingSet.human_attribute_name(:customer_id) %>
+        </strong>
+      </td>
+      <td>
+        <%= lending_set.customer.name %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= LendingSet.human_attribute_name(:lending_status_id) %>
+        </strong>
+      </td>
+      <td>
+        <%= lending_set.lending_status.name %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= LendingSet.human_attribute_name(:lend_start_date) %>
+        </strong>
+      </td>
+      <td>
+        <%= lending_set.lend_start_date && l(lending_set.lend_start_date) %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= LendingSet.human_attribute_name(:return_deadline_date) %>
+        </strong>
+      </td>
+      <td>
+        <%= lending_set.return_deadline_date && l(lending_set.return_deadline_date) %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= LendingSet.human_attribute_name(:return_date) %>
+        </strong>
+      </td>
+      <td>
+        <%= lending_set.return_date && l(lending_set.return_date) %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= LendingSet.human_attribute_name(:memo) %>
+        </strong>
+      </td>
+      <td>
+        <%= lending_set.memo %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= LendingSet.human_attribute_name(:created_at) %>
+        </strong>
+      </td>
+      <td>
+        <%= lending_set.created_at && l(lending_set.created_at) %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= LendingSet.human_attribute_name(:updated_at) %>
+        </strong>
+      </td>
+      <td>
+        <%= lending_set.updated_at && l(lending_set.updated_at) %>
+      </td>
+    </tr>
+  </table>
+</div>

@@ -1,0 +1,42 @@
+<div id="<%= dom_id lending_status %>">
+  <table class="table table-hover">
+    <tr>
+      <td>
+        <strong>Id:</strong>
+      </td>
+      <td>
+        <%= lending_status.id %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= LendingStatus.human_attribute_name(:name) %>
+        </strong>
+      </td>
+      <td>
+        <%= lending_status.name %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= LendingStatus.human_attribute_name(:created_at) %>
+        </strong>
+      </td>
+      <td>
+        <%= lending_status.created_at && l(lending_status.created_at) %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= LendingStatus.human_attribute_name(:updated_at) %>
+        </strong>
+      </td>
+      <td>
+        <%= lending_status.updated_at && l(lending_status.updated_at) %>
+      </td>
+    </tr>
+  </table>
+</div>

@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<h1><%= Customer.model_name.human %></h1>
+
+<%= render @customer %>
+
+<div>
+  <%= link_to t("view.show.move_to_update", model: Customer.model_name.human), edit_customer_path(@customer) %> |
+  <%= link_to t("view.show.move_to_index", model: Customer.model_name.human.pluralize), customers_path %>
+
+  <%= button_to t("helpers.submit.delete"),
+                @customer,
+                method: :delete,
+                class: %w[btn btn-primary],
+                data: { turbo_confirm: t("helpers.dialog.delete", id: @customer.id) } %>
+</div>

@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :lending_sets
+  resources :lending_statuses
+  resources :customers
   resources :book_stocks
   resources :book_stock_statuses
   resources :authors

@@ -1,0 +1,8 @@
+<h1><%= t("view.new.title", model: LendingStatus.model_name.human) %></h1>
+<%= render "form", lending_status: @lending_status %>
+
+<br>
+
+<div>
+  <%= link_to t("view.new.move_to_index", model: LendingStatus.model_name.human.pluralize), lending_statuses_path %>
+</div>

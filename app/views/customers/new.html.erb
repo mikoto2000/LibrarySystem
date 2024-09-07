@@ -1,0 +1,8 @@
+<h1><%= t("view.new.title", model: Customer.model_name.human) %></h1>
+<%= render "form", customer: @customer %>
+
+<br>
+
+<div>
+  <%= link_to t("view.new.move_to_index", model: Customer.model_name.human.pluralize), customers_path %>
+</div>

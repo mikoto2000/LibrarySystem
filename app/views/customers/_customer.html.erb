@@ -1,0 +1,52 @@
+<div id="<%= dom_id customer %>">
+  <table class="table table-hover">
+    <tr>
+      <td>
+        <strong>Id:</strong>
+      </td>
+      <td>
+        <%= customer.id %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= Customer.human_attribute_name(:name) %>
+        </strong>
+      </td>
+      <td>
+        <%= customer.name %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= Customer.human_attribute_name(:email_address) %>
+        </strong>
+      </td>
+      <td>
+        <%= customer.email_address %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= Customer.human_attribute_name(:created_at) %>
+        </strong>
+      </td>
+      <td>
+        <%= customer.created_at && l(customer.created_at) %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= Customer.human_attribute_name(:updated_at) %>
+        </strong>
+      </td>
+      <td>
+        <%= customer.updated_at && l(customer.updated_at) %>
+      </td>
+    </tr>
+  </table>
+</div>

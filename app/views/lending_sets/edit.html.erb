@@ -1,0 +1,9 @@
+<h1><%= t("view.edit.title", model: LendingSet.model_name.human) %></h1>
+<%= render "form", lending_set: @lending_set %>
+
+<br>
+
+<div>
+  <%= link_to t("view.edit.move_to_show", model: LendingSet.model_name.human), @lending_set %> |
+  <%= link_to t("view.edit.move_to_index", model: LendingSet.model_name.human.pluralize), lending_sets_path %>
+</div>

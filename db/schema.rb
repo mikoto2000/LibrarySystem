@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_07_021544) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_07_053810) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,6 +55,32 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_07_021544) do
     t.index ["book_stock_status_id"], name: "index_book_stocks_on_book_stock_status_id"
   end
 
+  create_table "customers", force: :cascade do |t|
+    t.string "name"
+    t.string "email_address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "lending_sets", force: :cascade do |t|
+    t.bigint "customer_id", null: false
+    t.bigint "lending_status_id", null: false
+    t.date "lend_start_date"
+    t.date "return_deadline_date"
+    t.date "return_date"
+    t.text "memo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_lending_sets_on_customer_id"
+    t.index ["lending_status_id"], name: "index_lending_sets_on_lending_status_id"
+  end
+
+  create_table "lending_statuses", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "ndc_categories", force: :cascade do |t|
     t.string "name"
     t.integer "number"
@@ -67,4 +93,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_07_021544) do
   add_foreign_key "book_masters", "ndc_categories"
   add_foreign_key "book_stocks", "book_masters"
   add_foreign_key "book_stocks", "book_stock_statuses"
+  add_foreign_key "lending_sets", "customers"
+  add_foreign_key "lending_sets", "lending_statuses"
 end

@@ -1,0 +1,87 @@
+<%= form_with(model: lending_set, html: { class: %w[form-control form-control-sm] }) do |form| -%>
+  <%- if lending_set.errors.any? -%>
+  <div style="color: red">
+    <h2><%= t("errors.template.header", model: LendingSet.model_name.human, count: lending_set.errors.count) %></h2>
+
+    <ul>
+    <% lending_set.errors.each do |error| %>
+      <li><%= error.full_message %></li>
+    <%- end -%>
+    </ul>
+  </div>
+  <%- end -%>
+
+  <%- if lending_set.persisted? -%>
+  <div>
+    <%= form.label :id, style: "display: block" %>
+    <div class="ps-2">
+      <%= form.number_field :id, class: %w[form-control form-control-sm], disabled: true %>
+    </div>
+  </div>
+  <%- end -%>
+  <div>
+    <%= form.label LendingSet.reflect_on_association(:customer).foreign_key %>
+    <div class="ps-2">
+      <%= form.collection_select(
+            LendingSet.reflect_on_association(:customer).foreign_key,
+            LendingSet.reflect_on_association(:customer).klass.all,
+            :id,
+            :name,
+            { include_blank: "選択なし" }
+          ) %>
+    </div>
+  </div>
+  <div>
+    <%= form.label LendingSet.reflect_on_association(:lending_status).foreign_key %>
+    <div class="ps-2">
+      <%= form.collection_select(
+            LendingSet.reflect_on_association(:lending_status).foreign_key,
+            LendingSet.reflect_on_association(:lending_status).klass.all,
+            :id,
+            :name,
+            { include_blank: "選択なし" }
+          ) %>
+    </div>
+  </div>
+  <div>
+    <%= form.label :lend_start_date, style: "display: block" %>
+    <div class="ps-2">
+      <%= form.date_field :lend_start_date, class: %w[form-control form-control-sm] %>
+    </div>
+  </div>
+  <div>
+    <%= form.label :return_deadline_date, style: "display: block" %>
+    <div class="ps-2">
+      <%= form.date_field :return_deadline_date, class: %w[form-control form-control-sm] %>
+    </div>
+  </div>
+  <div>
+    <%= form.label :return_date, style: "display: block" %>
+    <div class="ps-2">
+      <%= form.date_field :return_date, class: %w[form-control form-control-sm] %>
+    </div>
+  </div>
+  <div>
+    <%= form.label :memo, style: "display: block" %>
+    <div class="ps-2">
+      <%= form.text_area :memo, class: %w[form-control form-control-sm] %>
+    </div>
+  </div>
+  <%- if lending_set.persisted? -%>
+  <div>
+    <%= form.label :created_at, style: "display: block" %>
+    <div class="ps-2">
+      <%= form.datetime_field :created_at, class: %w[form-control form-control-sm], disabled: true %>
+    </div>
+  </div>
+  <div>
+    <%= form.label :updated_at, style: "display: block" %>
+    <div class="ps-2">
+      <%= form.datetime_field :updated_at, class: %w[form-control form-control-sm], disabled: true %>
+    </div>
+  </div>
+  <%- end -%>
+  <div>
+    <%= form.submit class: %w[btn btn-primary] %>
+  </div>
+<% end %>

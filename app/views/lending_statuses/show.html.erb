@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<h1><%= LendingStatus.model_name.human %></h1>
+
+<%= render @lending_status %>
+
+<div>
+  <%= link_to t("view.show.move_to_update", model: LendingStatus.model_name.human), edit_lending_status_path(@lending_status) %> |
+  <%= link_to t("view.show.move_to_index", model: LendingStatus.model_name.human.pluralize), lending_statuses_path %>
+
+  <%= button_to t("helpers.submit.delete"),
+                @lending_status,
+                method: :delete,
+                class: %w[btn btn-primary],
+                data: { turbo_confirm: t("helpers.dialog.delete", id: @lending_status.id) } %>
+</div>

@@ -271,3 +271,22 @@ BookStockStatus.create!([
 ```sh
 sudo BINDING=0.0.0.0 ./bin/dev
 ```
+
+# 貸出管理の
+
+## 顧客と貸出(伝票？)周り
+
+scaffold 作成。
+
+```sh
+./bin/rails generate scaffold Customer name:string email_address:string
+./bin/rails generate scaffold LendingStatus name:string
+./bin/rails generate scaffold LendingSet customer:references lending_status:references lend_start_date:date return_deadline_date:date return_date:date memo:text
+```
+
+## 動作確認
+
+```sh
+sudo BINDING=0.0.0.0 ./bin/dev
+```
+
