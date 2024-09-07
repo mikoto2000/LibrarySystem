@@ -1,0 +1,111 @@
+<div style="display: flex;flex-direction: column;height: 100vh;">
+
+  <header class="main-content-header">
+    <p style="color: green"><%= notice %></p>
+
+    <h1><%= BookStockStatus.model_name.human %><%= link_to "", new_book_stock_status_path, class: %w[bi bi-plus-circle-fill ms-2] %></h1>
+
+  <div class="accordion">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="search-form-header">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#search-form"
+          aria-expanded="false"
+          aria-controls="search-form"><%= t("view.index.search_condition") %></button>
+      </h2>
+      <div id="search-form" class="panel panel-default accordion-collapse collapse" aria-labelledby="headingOne">
+<%= search_form_for @q, html: { class: %w[form-control form-control-sm], data: { turbo_frame: "list" } } do |f| %>
+        <div>
+          <%= f.label :id_eq %>
+          <div class="ps-2">
+            <%= f.number_field :id_eq, class: %w[form-control form-control-sm] %>
+          </div>
+        </div>
+        <div>
+          <%= f.label :name_cont %>
+          <div class="ps-2">
+            <%= f.search_field :name_cont, class: %w[form-control form-control-sm] %>
+          </div>
+        </div>
+        <div>
+          <%= f.label :created_at %>
+          <div class="ps-2">
+            <%= f.datetime_field :created_at_gteq, class: %w[form-control form-control-sm] %>
+            ～
+            <%= f.datetime_field :created_at_lteq_end_of_minute, class: %w[form-control form-control-sm] %>
+          </div>
+        </div>
+        <div>
+          <%= f.label :updated_at %>
+          <div class="ps-2">
+            <%= f.datetime_field :updated_at_gteq, class: %w[form-control form-control-sm] %>
+            ～
+            <%= f.datetime_field :updated_at_lteq_end_of_minute, class: %w[form-control form-control-sm] %>
+          </div>
+        </div>
+        <%= f.hidden_field :limit, id: "f-limit", value: params[:limit] || Pagy::DEFAULT[:limit] %>
+        <%= f.submit class: %w[btn btn-primary] %>
+        <input
+          type="reset"
+          class="btn btn-primary"
+          onclick="clear_form(arguments[0], this)"
+          value="<%= t("helpers.submit.clear") %>">
+<%- end -%>
+      </div>
+    </div>
+  </header>
+
+  <main style="flex-grow: 1;flex-shrink: 1;overflow-y: auto;">
+<%= turbo_frame_tag "list" do %>
+  <div id="book_stock_statuses" class="text-nowrap">
+    <table class="table table-hover text-nowrap">
+      <thead class="table-light sticky-top">
+        <th><%= sort_link(@q, :id, default_order: :asc, class: "d-block") %></th>
+        <th><%= sort_link(@q, :name, default_order: :asc, class: "d-block") %></th>
+        <th><%= sort_link(@q, :created_at, default_order: :asc, class: "d-block") %></th>
+        <th><%= sort_link(@q, :updated_at, default_order: :asc, class: "d-block") %></th>
+        <th><%= t("view.index.operation") %></th>
+      </thead>
+      <tbody>
+  <%- @book_stock_statuses.each do |book_stock_status| %>
+        <tr
+          tabindex="0"
+          role="button"
+          onkeypress="handleEnterKeypressListIten(arguments[0], this, '<%= url_target(nil, book_stock_status).to_s %>')"
+          onclick="handleClickListItem(arguments[0], this, '<%= url_target(nil, book_stock_status).to_s %>')">
+          <td><%= book_stock_status.id %></td>
+          <td><%= book_stock_status.name %></td>
+          <td><%= book_stock_status.created_at && l(book_stock_status.created_at) %></td>
+          <td><%= book_stock_status.updated_at && l(book_stock_status.updated_at) %></td>
+          <td>
+            <%= button_to(
+                  t("helpers.submit.delete"),
+                  book_stock_status,
+                  method: :delete,
+                  tabindex: 0,
+                  class: %w[btn btn-primary],
+                  onclick: "handleDeleteListItem(arguments[0], this)",
+                  data: { turbo_confirm: t("helpers.dialog.delete", id: book_stock_status.id) }
+                ) %>
+          </td>
+        </tr>
+  <%- end %>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <%== pagy_bootstrap_nav(@pagy) %>
+    <%== pagy_limit_selector_js(@pagy, item_name: "Book stock status".pluralize(@pagy.count), id: "pagy-limit-selector") %>
+    <%= link_to(
+          t("view.index.update_item_per_page", model: BookStockStatus.model_name.human),
+          "javascript:void(0);",
+          onClick: "updateItemPerPage(arguments[0],
+          this)"
+        ) %>
+  </div>
+<% end %>
+  </main>
+</div>

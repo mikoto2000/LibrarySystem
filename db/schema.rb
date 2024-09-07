@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_06_035657) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_07_021544) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -39,6 +39,22 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_06_035657) do
     t.index ["ndc_category_id"], name: "index_book_masters_on_ndc_category_id"
   end
 
+  create_table "book_stock_statuses", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "book_stocks", force: :cascade do |t|
+    t.bigint "book_master_id", null: false
+    t.bigint "book_stock_status_id", null: false
+    t.text "memo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_master_id"], name: "index_book_stocks_on_book_master_id"
+    t.index ["book_stock_status_id"], name: "index_book_stocks_on_book_stock_status_id"
+  end
+
   create_table "ndc_categories", force: :cascade do |t|
     t.string "name"
     t.integer "number"
@@ -49,4 +65,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_06_035657) do
   add_foreign_key "book_author_relationships", "authors"
   add_foreign_key "book_author_relationships", "book_masters"
   add_foreign_key "book_masters", "ndc_categories"
+  add_foreign_key "book_stocks", "book_masters"
+  add_foreign_key "book_stocks", "book_stock_statuses"
 end

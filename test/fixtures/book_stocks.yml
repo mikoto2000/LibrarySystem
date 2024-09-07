@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  book_master: one
+  book_stock_status: one
+  memo: one
+  created_at: 2024-09-07 11:16:02 +0900
+  updated_at: 2024-09-08 11:16:02 +0900
+
+two:
+  book_master: two
+  book_stock_status: two
+  memo: two
+  created_at: 2024-09-09 11:16:02 +0900
+  updated_at: 2024-09-10 11:16:02 +0900
+
+dummy:
+  book_master: dummy
+  book_stock_status: dummy
+  memo: dummy
+  created_at: 2024-09-11 11:16:02 +0900
+  updated_at: 2024-09-12 11:16:02 +0900
+
+destroy_target:
+  book_master: dummy
+  book_stock_status: dummy
+  memo: BookStock
+  created_at: 2024-09-13 11:16:02 +0900
+  updated_at: 2024-09-14 11:16:02 +0900

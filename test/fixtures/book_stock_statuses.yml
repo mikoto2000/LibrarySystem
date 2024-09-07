@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: one
+  created_at: 2024-09-07 11:15:17 +0900
+  updated_at: 2024-09-08 11:15:17 +0900
+
+two:
+  name: two
+  created_at: 2024-09-09 11:15:17 +0900
+  updated_at: 2024-09-10 11:15:17 +0900
+
+dummy:
+  name: dummy
+  created_at: 2024-09-11 11:15:17 +0900
+  updated_at: 2024-09-12 11:15:17 +0900
+
+destroy_target:
+  name: BookStockStatus
+  created_at: 2024-09-13 11:15:17 +0900
+  updated_at: 2024-09-14 11:15:17 +0900

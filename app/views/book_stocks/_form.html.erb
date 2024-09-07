@@ -1,0 +1,69 @@
+<%= form_with(model: book_stock, html: { class: %w[form-control form-control-sm] }) do |form| -%>
+  <%- if book_stock.errors.any? -%>
+  <div style="color: red">
+    <h2><%= t("errors.template.header", model: BookStock.model_name.human, count: book_stock.errors.count) %></h2>
+
+    <ul>
+    <% book_stock.errors.each do |error| %>
+      <li><%= error.full_message %></li>
+    <%- end -%>
+    </ul>
+  </div>
+  <%- end -%>
+
+  <%- if book_stock.persisted? -%>
+  <div>
+    <%= form.label :id, style: "display: block" %>
+    <div class="ps-2">
+      <%= form.number_field :id, class: %w[form-control form-control-sm], disabled: true %>
+    </div>
+  </div>
+  <%- end -%>
+  <div>
+    <%= form.label BookStock.reflect_on_association(:book_master).foreign_key %>
+    <div class="ps-2">
+      <%= form.collection_select(
+            BookStock.reflect_on_association(:book_master).foreign_key,
+            BookStock.reflect_on_association(:book_master).klass.all,
+            :id,
+            :title,
+            { include_blank: "選択なし" }
+          ) %>
+    </div>
+  </div>
+  <div>
+    <%= form.label BookStock.reflect_on_association(:book_stock_status).foreign_key %>
+    <div class="ps-2">
+      <%= form.collection_select(
+            BookStock.reflect_on_association(:book_stock_status).foreign_key,
+            BookStock.reflect_on_association(:book_stock_status).klass.all,
+            :id,
+            :name,
+            { include_blank: "選択なし" }
+          ) %>
+    </div>
+  </div>
+  <div>
+    <%= form.label :memo, style: "display: block" %>
+    <div class="ps-2">
+      <%= form.text_area :memo, class: %w[form-control form-control-sm] %>
+    </div>
+  </div>
+  <%- if book_stock.persisted? -%>
+  <div>
+    <%= form.label :created_at, style: "display: block" %>
+    <div class="ps-2">
+      <%= form.datetime_field :created_at, class: %w[form-control form-control-sm], disabled: true %>
+    </div>
+  </div>
+  <div>
+    <%= form.label :updated_at, style: "display: block" %>
+    <div class="ps-2">
+      <%= form.datetime_field :updated_at, class: %w[form-control form-control-sm], disabled: true %>
+    </div>
+  </div>
+  <%- end -%>
+  <div>
+    <%= form.submit class: %w[btn btn-primary] %>
+  </div>
+<% end %>

@@ -1,0 +1,42 @@
+<div id="<%= dom_id book_stock_status %>">
+  <table class="table table-hover">
+    <tr>
+      <td>
+        <strong>Id:</strong>
+      </td>
+      <td>
+        <%= book_stock_status.id %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= BookStockStatus.human_attribute_name(:name) %>
+        </strong>
+      </td>
+      <td>
+        <%= book_stock_status.name %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= BookStockStatus.human_attribute_name(:created_at) %>
+        </strong>
+      </td>
+      <td>
+        <%= book_stock_status.created_at && l(book_stock_status.created_at) %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <%= BookStockStatus.human_attribute_name(:updated_at) %>
+        </strong>
+      </td>
+      <td>
+        <%= book_stock_status.updated_at && l(book_stock_status.updated_at) %>
+      </td>
+    </tr>
+  </table>
+</div>

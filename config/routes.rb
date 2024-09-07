@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :book_stocks
+  resources :book_stock_statuses
   resources :authors
   resources :book_masters
   resources :ndc_categories

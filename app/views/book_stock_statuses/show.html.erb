@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<h1><%= BookStockStatus.model_name.human %></h1>
+
+<%= render @book_stock_status %>
+
+<div>
+  <%= link_to t("view.show.move_to_update", model: BookStockStatus.model_name.human), edit_book_stock_status_path(@book_stock_status) %> |
+  <%= link_to t("view.show.move_to_index", model: BookStockStatus.model_name.human.pluralize), book_stock_statuses_path %>
+
+  <%= button_to t("helpers.submit.delete"),
+                @book_stock_status,
+                method: :delete,
+                class: %w[btn btn-primary],
+                data: { turbo_confirm: t("helpers.dialog.delete", id: @book_stock_status.id) } %>
+</div>

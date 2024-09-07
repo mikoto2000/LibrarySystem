@@ -112,3 +112,18 @@ NdcCategory.create!(
     { number: 990, name: 'その他の諸言語文学（Literatures of other languages）' },
   ]
 )
+
+BookStockStatus.create!([
+  {
+    name: "貸出可能",
+  },
+  {
+    name: "貸出中",
+  },
+  {
+    name: "貸出不可",
+  },
+  {
+    name: "破棄",
+  }
+])

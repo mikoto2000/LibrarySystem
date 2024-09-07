@@ -1,0 +1,9 @@
+<h1><%= t("view.edit.title", model: BookStock.model_name.human) %></h1>
+<%= render "form", book_stock: @book_stock %>
+
+<br>
+
+<div>
+  <%= link_to t("view.edit.move_to_show", model: BookStock.model_name.human), @book_stock %> |
+  <%= link_to t("view.edit.move_to_index", model: BookStock.model_name.human.pluralize), book_stocks_path %>
+</div>

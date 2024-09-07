@@ -211,3 +211,63 @@ end
 ```sh
 sudo BINDING=0.0.0.0 ./bin/dev
 ```
+
+# 貸出管理
+
+## まずは在庫ステータスと在庫
+
+### scaffold の作成
+
+```sh
+./bin/rails generate scaffold BookStockStatus name:string
+./bin/rails generate scaffold BookStock book_master:references book_stock_status:references memo:text
+```
+
+### scaffold の修正
+
+`app/views/book_stocks/index.html.erb`:
+
+`book_master` の `name` を `title` に変更。
+
+`app/views/book_stocks/_book_master.html.erb`:
+
+`<%= book_stock.book_master.name %>` を `<%= book_stock.book_master.title %>` に変更。
+
+`app/views/book_stocks/_form.html.erb`:
+
+`book_stock` の `:name` を `:title` に変更。
+
+
+### db マイグレーション
+
+```sh
+./bin/rails db:drop
+./bin/rails db:create
+./bin/rails db:migrate
+./bin/rails db:seed
+```
+
+### seed 作成
+
+```rb
+BookStockStatus.create!([
+  {
+    name: "貸出可能",
+  },
+  {
+    name: "貸出中",
+  },
+  {
+    name: "貸出不可",
+  },
+  {
+    name: "破棄",
+  }
+])
+```
+
+### 動作確認
+
+```sh
+sudo BINDING=0.0.0.0 ./bin/dev
+```
