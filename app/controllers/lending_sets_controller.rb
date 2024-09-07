@@ -63,6 +63,6 @@ class LendingSetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def lending_set_params
-      params.require(:lending_set).permit(:customer_id, :lending_status_id, :lend_start_date, :return_deadline_date, :return_date, :memo)
+      params.require(:lending_set).permit(:customer_id, :lending_status_id, :lend_start_date, :return_deadline_date, :return_date, :memo, {book_stocks: []}, {book_stock_ids: []})
     end
 end

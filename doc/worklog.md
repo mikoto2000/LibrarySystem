@@ -150,7 +150,7 @@ end
     <%= form.label :author %>
     <div class="ps-2">
       <%= form.collection_select(
-            :author,
+            :author_ids,
             Author.all,
             :id,
             :name,
@@ -290,3 +290,16 @@ scaffold 作成。
 sudo BINDING=0.0.0.0 ./bin/dev
 ```
 
+# LendingSet と BookStock の関連を追加
+
+## model の作成
+
+```sh
+./bin/rails generate model Lending lending_set:references book_stock:references
+```
+
+## マイグレーション
+
+```sh
+./bin/rails db:migrate
+```

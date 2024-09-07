@@ -1,4 +1,6 @@
 Ransack.configure do |config|
+  config.strip_whitespace = true
+
   config.custom_arrows = {
     up_arrow: '<i class="bi-sort-down"></i>',
     down_arrow: '<i class="bi-sort-down-alt"></i>',

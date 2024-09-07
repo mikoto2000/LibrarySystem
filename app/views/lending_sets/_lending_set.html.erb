@@ -21,6 +21,16 @@
     <tr>
       <td>
         <strong>
+          <%= LendingSet.human_attribute_name(:book_stock) %>
+        </strong>
+      </td>
+      <td>
+        <%= lending_set.book_stocks.map{|bs| bs.book_master.title}.join(", ") %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
           <%= LendingSet.human_attribute_name(:lending_status_id) %>
         </strong>
       </td>

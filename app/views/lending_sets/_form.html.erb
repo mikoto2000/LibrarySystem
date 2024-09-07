@@ -32,6 +32,18 @@
     </div>
   </div>
   <div>
+    <%= form.label :book_stocks %>
+    <div class="ps-2">
+      <%= form.collection_select(
+            :book_stock_ids,
+            BookStock.all.map {|bs| [bs.id, bs.book_master.title]},
+            :first,
+            :last,
+            { multiple: true }
+          ) %>
+    </div>
+  </div>
+  <div>
     <%= form.label LendingSet.reflect_on_association(:lending_status).foreign_key %>
     <div class="ps-2">
       <%= form.collection_select(

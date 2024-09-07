@@ -38,6 +38,19 @@
           </div>
         </div>
         <div>
+          <%= f.label :book_stock.to_s + "_in".to_s %>
+          <div class="ps-2">
+            <%= f.collection_select(
+                  :lending_book_stock_id.to_s + "_in".to_s,
+                  BookStock.all.map {|book_stock| [book_stock.id, book_stock.book_master.title]},
+                  :first,
+                  :last,
+                  {},
+                  { multiple: true }
+                ) %>
+          </div>
+        </div>
+        <div>
           <%= f.label LendingSet.reflect_on_association(:lending_status).foreign_key + "_in".to_s %>
           <div class="ps-2">
             <%= f.collection_select(
@@ -115,6 +128,7 @@
       <thead class="table-light sticky-top">
         <th><%= sort_link(@q, :id, default_order: :asc, class: "d-block") %></th>
         <th><%= sort_link(@q, :customer_id, default_order: :asc, class: "d-block") %></th>
+        <th><%= sort_link(@q, :title, default_order: :asc, class: "d-block") %></th>
         <th><%= sort_link(@q, :lending_status_id, default_order: :asc, class: "d-block") %></th>
         <th><%= sort_link(@q, :lend_start_date, default_order: :asc, class: "d-block") %></th>
         <th><%= sort_link(@q, :return_deadline_date, default_order: :asc, class: "d-block") %></th>
@@ -133,6 +147,7 @@
           onclick="handleClickListItem(arguments[0], this, '<%= url_target(nil, lending_set).to_s %>')">
           <td><%= lending_set.id %></td>
           <td><%= lending_set.customer.name %></td>
+          <td><%= lending_set.book_stocks.map {|book_stock| book_stock.book_master.title }.join(", ") %></td>
           <td><%= lending_set.lending_status.name %></td>
           <td><%= lending_set.lend_start_date && l(lending_set.lend_start_date) %></td>
           <td><%= lending_set.return_deadline_date && l(lending_set.return_deadline_date) %></td>

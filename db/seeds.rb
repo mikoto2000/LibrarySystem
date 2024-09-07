@@ -127,3 +127,15 @@ BookStockStatus.create!([
     name: "破棄",
   }
 ])
+
+LendingStatus.create!([
+  {
+    name: "貸出中",
+  },
+  {
+    name: "貸出期限超過",
+  },
+  {
+    name: "返却済",
+  }
+])

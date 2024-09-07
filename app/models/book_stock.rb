@@ -4,4 +4,7 @@ class BookStock < ApplicationRecord
   end
   belongs_to :book_master
   belongs_to :book_stock_status
+
+  has_many :lending
+  has_many :ng_sets, through: :lending
 end

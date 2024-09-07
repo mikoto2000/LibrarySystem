@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_07_053810) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_07_081710) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -81,6 +81,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_07_053810) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "lendings", force: :cascade do |t|
+    t.bigint "lending_set_id", null: false
+    t.bigint "book_stock_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_stock_id"], name: "index_lendings_on_book_stock_id"
+    t.index ["lending_set_id"], name: "index_lendings_on_lending_set_id"
+  end
+
   create_table "ndc_categories", force: :cascade do |t|
     t.string "name"
     t.integer "number"
@@ -95,4 +104,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_07_053810) do
   add_foreign_key "book_stocks", "book_stock_statuses"
   add_foreign_key "lending_sets", "customers"
   add_foreign_key "lending_sets", "lending_statuses"
+  add_foreign_key "lendings", "book_stocks"
+  add_foreign_key "lendings", "lending_sets"
 end
