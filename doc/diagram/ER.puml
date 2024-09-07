@@ -29,17 +29,18 @@ package "貸出管理" {
     * id
     --
     * lending_set_id (FK: LendingSet(id))
-    * customer_id (FK: Customer(id))
     * book_stock_id (FK: BookStock(id))
   }
 
   entity LendingSet {
     * id
     --
+    * customer_id (FK: Customer(id))
     * LendingSetStatus (FK: LendingStatus(id))
     * lend_start_date
     * return_deadline_date
-    return_date
+      return_date
+      memo
   }
 
   entity LendingStatus {
