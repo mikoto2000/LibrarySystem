@@ -36,7 +36,7 @@
     <div class="ps-2">
       <%= form.collection_select(
             :book_stock_ids,
-            BookStock.all.map {|bs| [bs.id, bs.book_master.title]},
+            BookStock.all.map {|bs| [bs.id, bs.id.to_s + ":" + bs.book_master.title]},
             :first,
             :last,
             { multiple: true }

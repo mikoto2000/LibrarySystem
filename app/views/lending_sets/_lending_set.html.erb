@@ -25,7 +25,7 @@
         </strong>
       </td>
       <td>
-        <%= lending_set.book_stocks.map{|bs| bs.book_master.title}.join(", ") %>
+        <%= lending_set.book_stocks.map{|bs| bs.id.to_s + ":" + bs.book_master.title}.join(", ") %>
       </td>
     </tr>
     <tr>
