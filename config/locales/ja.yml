@@ -69,3 +69,61 @@ ja:
     new:
       title: "%{model}を作成"
       move_to_index: 一覧へ戻る
+  activerecord:
+    models:
+      author: 著者
+      ndc_category: 書籍分類
+      book_master: 書籍マスタ
+      book_stock: 貸出書籍在庫
+      book_stock_status: 在庫ステータス
+      lending_set: 貸出セット
+      lending_status: 貸出状態
+      customer: 顧客
+    attributes:
+      author:
+        name: 名前
+        created_at: 作成日時
+        updated_at: 更新日時
+      ndc_category:
+        name: 名前
+        number: 分類番号
+        created_at: 作成日時
+        updated_at: 更新日時
+      book_master:
+        isbn: ISBN
+        title: タイトル
+        author: 著者
+        publication_date: 発行日
+        ndc_category_id: 書籍分類
+        created_at: 作成日時
+        updated_at: 更新日時
+      lending_status:
+        name: 名前
+        created_at: 作成日時
+        updated_at: 更新日時
+      book_stock_status:
+        name: 名前
+        created_at: 作成日時
+        updated_at: 更新日時
+      customer:
+        name: 名前
+        email_address: メールアドレス
+        created_at: 作成日時
+        updated_at: 更新日時
+      book_stock:
+        book_master_id: 書籍
+        book_stock_status_id: 在庫状態
+        memo: 備考
+        created_at: 作成日時
+        updated_at: 更新日時
+      lending_set:
+        customer: 顧客
+        title: 貸出タイトル
+        lending_status_id: 貸出ステータス
+        lend_start_date: 貸出開始日
+        return_deadline_date: 返却期限
+        return_date: 返却日
+        memo: 備考
+        created_at: 作成日時
+        updated_at: 更新日時
+
