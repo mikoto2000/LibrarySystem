@@ -117,7 +117,7 @@ ja:
         created_at: 作成日時
         updated_at: 更新日時
       lending_set:
-        customer: 顧客
+        customer_id: 顧客
         title: 貸出タイトル
         lending_status_id: 貸出ステータス
         lend_start_date: 貸出開始日
