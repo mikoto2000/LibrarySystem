@@ -37,6 +37,19 @@
           </div>
         </div>
         <div>
+          <%= f.label :author.to_s + "_in".to_s %>
+          <div class="ps-2">
+            <%= f.collection_select(
+                  :book_author_relationship_author_id.to_s + "_in".to_s,
+                  Author.all,
+                  :id,
+                  :name,
+                  {},
+                  { multiple: true }
+                ) %>
+          </div>
+        </div>
+        <div>
           <%= f.label :publication_date %>
           <div class="ps-2">
             <%= f.date_field :publication_date_gteq, class: %w[form-control form-control-sm] %>
@@ -50,19 +63,6 @@
             <%= f.collection_select(
                   BookMaster.reflect_on_association(:ndc_category).foreign_key + "_in".to_s,
                   BookMaster.reflect_on_association(:ndc_category).klass.all,
-                  :id,
-                  :name,
-                  {},
-                  { multiple: true }
-                ) %>
-          </div>
-        </div>
-        <div>
-          <%= f.label :author.to_s + "_in".to_s %>
-          <div class="ps-2">
-            <%= f.collection_select(
-                  :book_author_relationship_author_id.to_s + "_in".to_s,
-                  Author.all,
                   :id,
                   :name,
                   {},
@@ -106,9 +106,9 @@
         <th><%= sort_link(@q, :id, default_order: :asc, class: "d-block") %></th>
         <th><%= sort_link(@q, :isbn, default_order: :asc, class: "d-block") %></th>
         <th><%= sort_link(@q, :title, default_order: :asc, class: "d-block") %></th>
+        <th><%= sort_link(@q, :author, default_order: :asc, class: "d-block") %></th>
         <th><%= sort_link(@q, :publication_date, default_order: :asc, class: "d-block") %></th>
         <th><%= sort_link(@q, :ndc_category_id, default_order: :asc, class: "d-block") %></th>
-        <th><%= sort_link(@q, :author, default_order: :asc, class: "d-block") %></th>
         <th><%= sort_link(@q, :created_at, default_order: :asc, class: "d-block") %></th>
         <th><%= sort_link(@q, :updated_at, default_order: :asc, class: "d-block") %></th>
         <th><%= t("view.index.operation") %></th>
@@ -123,9 +123,9 @@
           <td><%= book_master.id %></td>
           <td><%= book_master.isbn %></td>
           <td><%= book_master.title %></td>
+          <td><%= book_master.authors.map{|author| author.name }.join(", ") %></td>
           <td><%= book_master.publication_date && l(book_master.publication_date) %></td>
           <td><%= book_master.ndc_category.name %></td>
-          <td><%= book_master.authors.map{|author| author.name }.join(", ") %></td>
           <td><%= book_master.created_at && l(book_master.created_at) %></td>
           <td><%= book_master.updated_at && l(book_master.updated_at) %></td>
           <td>
