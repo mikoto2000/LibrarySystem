@@ -97,6 +97,7 @@ class Author < ApplicationRecord
     %w[name id created_at updated_at]
   end
 
+  # book_author_relationship を通して多対多になる BookStock の設定を記述
   has_many :book_author_relationship                         # 中間テーブルへの関連を定義
   has_many :book_masters, through: :book_author_relationship # 中間テーブルの先の関連を定義
 end
@@ -110,11 +111,14 @@ class BookMaster < ApplicationRecord
    # author_id を追加
    %w[isbn title publication_date ndc_category_id author_id id created_at updated_at]
  end
+
  # Ransack がアソシエーションを認識するための設定の追加
  def self.ransackable_associations(auth_object = nil)
    ["authors", "book_author_relationship", "ndc_category"]
   end
   belongs_to :ndc_category
+
+  # book_author_relationship を通して多対多になる BookStock の設定を記述
   has_many :book_author_relationship                    # 中間テーブルへの関連を定義
   has_many :authors, through: :book_author_relationship # 中間テーブルの先の関連を定義
 end
@@ -199,6 +203,23 @@ end
           <td><%= book_master.authors.map{|author| author.name }.join(", ") %></td>
 ```
 
+`app/views/book_masters/_book_master.html.erb`:
+
+author 行の追加。
+
+```rb
+    <tr>
+      <td>
+        <strong>
+          <%= BookMaster.human_attribute_name(:author) %>
+        </strong>
+      </td>
+      <td>
+        <%= book_master.authors.map{|a| a.name}.join(", ") %>
+      </td>
+    </tr>
+```
+
 
 #### db マイグレーション
 
@@ -272,7 +293,7 @@ BookStockStatus.create!([
 sudo BINDING=0.0.0.0 ./bin/dev
 ```
 
-# 貸出管理の
+# 貸出管理の scaffold 作成
 
 ## 顧客と貸出(伝票？)周り
 
@@ -303,3 +324,150 @@ sudo BINDING=0.0.0.0 ./bin/dev
 ```sh
 ./bin/rails db:migrate
 ```
+
+
+# 貸出(伝票？)と BookStock の関連を追加
+
+## モデルの生成
+
+```sh
+./bin/rails generate model Lending lending_set:references book_stock:references
+```
+
+### 生成されたものの修正
+
+#### モデル
+
+`app/model/lending_set.rb`:
+
+```rb
+class LendingSet < ApplicationRecord
+  def self.ransackable_attributes(_auth_object = nil)
+    # `book_stock_id` を追加
+    %w[customer_id book_stock_id lending_status_id lend_start_date return_deadline_date return_date memo id created_at updated_at]
+  end
+
+ # Ransack がアソシエーションを認識するための設定の追加
+  def self.ransackable_associations(auth_object = nil)
+    ["book_stocks", "customer", "lending", "lending_status"]
+  end
+  belongs_to :customer
+  belongs_to :lending_status
+
+  # lending を通して多対多になる BookStock の設定を記述
+  has_many :lending                        # 中間テーブルへの関連を定義
+  has_many :book_stocks, through: :lending # 中間テーブルの先の関連を定義
+end
+```
+
+`app/model/book_stock.rb`:
+
+```rb
+class BookStock < ApplicationRecord
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[book_master_id book_stock_status_id memo id created_at updated_at]
+  end
+  belongs_to :book_master
+  belongs_to :book_stock_status
+
+  # lending を通して多対多になる BookStock の設定を記述
+  has_many :lending                    # 中間テーブルへの関連を定義
+  has_many :ng_sets, through: :lending # 中間テーブルの先の関連を定義
+end
+```
+
+#### コントローラー
+
+`app/controllers/lending_sets_controller.rb`:
+
+```rb
+...(snip)
+    # Only allow a list of trusted parameters through.
+    def lending_set_params
+      # `{book_stock_ids: []}` を追加
+      params.require(:lending_set).permit(:customer_id, :lending_status_id, :lend_start_date, :return_deadline_date, :return_date, :memo, {book_stock_ids: []})
+    end
+end
+```
+
+#### ビュー
+
+`app/views/book_masters/_form.html.erb`:
+
+```rb
+...(snip)
+  <%
+    # この div ブロックを追加
+    # 複数選択のセレクトフィールドで、
+    # この貸出するの book_stock を選択する。
+  %>
+  <div>
+    <%= form.label :book_stocks %>
+    <div class="ps-2">
+      <%= form.collection_select(
+            :book_stock_ids,
+            BookStock.all.map {|bs| [bs.id, bs.id.to_s + ":" + bs.book_master.title]},
+            :first,
+            :last,
+            { multiple: true }
+          ) %>
+    </div>
+  </div>
+...(snip)
+```
+
+
+`app/views/book_masters/index.html.erb`:
+
+検索フィールド追加。
+
+```rb
+        <%
+          # この div ブロックを追加
+          # 複数選択のセレクトフィールドで、
+          # 選択したモノを持つ要素を抽出する。
+        %>
+        <div>
+          <%= f.label :book_stock.to_s + "_in".to_s %>
+          <div class="ps-2">
+            <%= f.collection_select(
+                  :lending_book_stock_id.to_s + "_in".to_s,
+                  BookStock.all.map {|bs| [bs.id, bs.id.to_s + ":" + bs.book_master.title]},
+                  :first,
+                  :last,
+                  {},
+                  { multiple: true }
+                ) %>
+          </div>
+        </div>
+```
+
+テーブルヘッダ―の追加。
+
+```rb
+        <th><%= sort_link(@q, :title, default_order: :asc, class: "d-block") %></th>
+```
+
+テーブルボディの追加。
+
+```rb
+          <td><%= lending_set.book_stocks.map {|book_stock| book_stock.book_master.title }.join(", ") %></td>
+```
+
+`app/views/book_masters/_lending_set.html.erb`:
+
+タイトル行の追加。
+
+```rb
+    <tr>
+      <td>
+        <strong>
+          <%= LendingSet.human_attribute_name(:book_stock) %>
+        </strong>
+      </td>
+      <td>
+        <%= lending_set.book_stocks.map{|bs| bs.id.to_s + ":" + bs.book_master.title}.join(", ") %>
+      </td>
+    </tr>
+```
+
