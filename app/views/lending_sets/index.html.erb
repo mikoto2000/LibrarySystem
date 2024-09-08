@@ -42,7 +42,7 @@
           <div class="ps-2">
             <%= f.collection_select(
                   :lending_book_stock_id.to_s + "_in".to_s,
-                  BookStock.all.map {|book_stock| [book_stock.id, book_stock.book_master.title]},
+                  BookStock.all.map {|bs| [bs.id, bs.id.to_s + ":" + bs.book_master.title]},
                   :first,
                   :last,
                   {},
@@ -147,7 +147,7 @@
           onclick="handleClickListItem(arguments[0], this, '<%= url_target(nil, lending_set).to_s %>')">
           <td><%= lending_set.id %></td>
           <td><%= lending_set.customer.name %></td>
-          <td><%= lending_set.book_stocks.map {|book_stock| book_stock.book_master.title }.join(", ") %></td>
+          <td><%= lending_set.book_stocks.map {|bs| bs.id.to_s + ":" + bs.book_master.title }.join(", ") %></td>
           <td><%= lending_set.lending_status.name %></td>
           <td><%= lending_set.lend_start_date && l(lending_set.lend_start_date) %></td>
           <td><%= lending_set.return_deadline_date && l(lending_set.return_deadline_date) %></td>
