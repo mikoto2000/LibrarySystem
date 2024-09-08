@@ -259,15 +259,6 @@ sudo BINDING=0.0.0.0 ./bin/dev
 `book_stock` の `:name` を `:title` に変更。
 
 
-### db マイグレーション
-
-```sh
-./bin/rails db:drop
-./bin/rails db:create
-./bin/rails db:migrate
-./bin/rails db:seed
-```
-
 ### seed 作成
 
 ```rb
@@ -287,6 +278,15 @@ BookStockStatus.create!([
 ])
 ```
 
+### db マイグレーション
+
+```sh
+./bin/rails db:drop
+./bin/rails db:create
+./bin/rails db:migrate
+./bin/rails db:seed
+```
+
 ### 動作確認
 
 ```sh
@@ -303,6 +303,22 @@ scaffold 作成。
 ./bin/rails generate scaffold Customer name:string email_address:string
 ./bin/rails generate scaffold LendingStatus name:string
 ./bin/rails generate scaffold LendingSet customer:references lending_status:references lend_start_date:date return_deadline_date:date return_date:date memo:text
+```
+
+### seed 作成
+
+```rb
+LendingStatus.create!([
+  {
+    name: "貸出中",
+  },
+  {
+    name: "貸出期限超過",
+  },
+  {
+    name: "返却済",
+  }
+])
 ```
 
 ## 動作確認
