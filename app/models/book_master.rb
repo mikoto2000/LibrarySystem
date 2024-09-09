@@ -5,6 +5,15 @@ class BookMaster < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     ["authors", "book_author_relationship", "ndc_category"]
   end
+
+  # TODO: ちゃんとした判定ロジックを作る
+  VALID_ISBN_PATTERN = /[0-9\-]+/
+
+  validates :isbn, presence: true, uniqueness: true, format: { with: VALID_ISBN_PATTERN }
+  validates :title, presence: true
+  validates :publication_date, presence: true
+  validates :ndc_category, presence: true
+
   belongs_to :ndc_category
   has_many :book_author_relationship
   has_many :authors, through: :book_author_relationship
