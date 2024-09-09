@@ -18,16 +18,16 @@ class BookStocksControllerTest < ActionDispatch::IntegrationTest
     assert_select "table > tbody > tr:nth-of-type(1) > td", text: @book_stock.id.to_s
   end
   test "should get index search book_masters" do
-    search_ids = [book_stocks(:one).role_id, book_stocks(:two).role_id]
+    search_ids = [book_stocks(:one).book_master_id, book_stocks(:two).book_master_id]
     get book_stocks_url, params: { q: { book_master_id_in: search_ids } }
     assert_response :success
 
     assert_select "table > tbody > tr", count: 2
-    assert_select "table > tbody > tr > td:nth-of-type(2)", text: @book_stock.book_master.name # one
-    assert_select "table > tbody > tr > td:nth-of-type(2)", text: @book_stock.book_master.name # two
+    assert_select "table > tbody > tr > td:nth-of-type(2)", text: @book_stock.book_master.title # one
+    assert_select "table > tbody > tr > td:nth-of-type(2)", text: @book_stock.book_master.title # two
   end
-  test "should get index search book_stock_statuss" do
-    search_ids = [book_stocks(:one).role_id, book_stocks(:two).role_id]
+  test "should get index search book_stock_statuses" do
+    search_ids = [book_stocks(:one).book_stock_status_id, book_stocks(:two).book_stock_status_id]
     get book_stocks_url, params: { q: { book_stock_status_id_in: search_ids } }
     assert_response :success
 
@@ -50,9 +50,9 @@ class BookStocksControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     assert_select "table > tbody > tr", count: 3
-    assert_select "table > tbody > tr > td:nth-of-type(4)", text: book_stocks(:one).name # one
-    assert_select "table > tbody > tr > td:nth-of-type(4)", text: book_stocks(:two).name # two
-    assert_select "table > tbody > tr > td:nth-of-type(4)", text: book_stocks(:destroy_target).name # destroy_target
+    assert_select "table > tbody > tr > td:nth-of-type(4)", text: book_stocks(:one).memo # one
+    assert_select "table > tbody > tr > td:nth-of-type(4)", text: book_stocks(:two).memo # two
+    assert_select "table > tbody > tr > td:nth-of-type(4)", text: book_stocks(:destroy_target).memo # destroy_target
   end
 
   test "should get index search created_at single hit" do
@@ -114,9 +114,9 @@ class BookStocksControllerTest < ActionDispatch::IntegrationTest
 
   test "should create book_stock" do
     assert_difference("BookStock.count") do
-      post book_stocks_url, params: { book_stock: {
+      post book_stocks_url, params: { book_stock:
         { book_master_id: @book_stock.book_master_id, book_stock_status_id: @book_stock.book_stock_status_id, memo: @book_stock.memo }
-      } }
+      }
     end
 
     assert_redirected_to book_stock_url(BookStock.last)
@@ -133,9 +133,9 @@ class BookStocksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update book_stock" do
-    patch book_stock_url(@book_stock), params: { book_stock: {
+    patch book_stock_url(@book_stock), params: { book_stock:
       { book_master_id: @book_stock.book_master_id, book_stock_status_id: @book_stock.book_stock_status_id, memo: @book_stock.memo }
-    } }
+    }
     assert_redirected_to book_stock_url(@book_stock)
   end
 
