@@ -117,8 +117,7 @@ class BookStockStatusesControllerTest < ActionDispatch::IntegrationTest
 
   test "should update book_stock_status" do
     patch book_stock_status_url(@book_stock_status), params: { book_stock_status:
-      { name: @book_stock_status.name }
-    }
+      { name: @book_stock_status.name } }
     assert_redirected_to book_stock_status_url(@book_stock_status)
   end
 

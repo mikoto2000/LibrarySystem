@@ -47,7 +47,8 @@ class BookStockStatusesController < ApplicationController
   # DELETE /book_stock_statuses/1
   def destroy
     @book_stock_status.destroy!
-    redirect_to book_stock_statuses_url, notice: t("controller.destroy.success", model: BookStockStatus.model_name.human)
+    redirect_to book_stock_statuses_url,
+                notice: t("controller.destroy.success", model: BookStockStatus.model_name.human)
   end
 
   private

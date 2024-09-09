@@ -245,8 +245,7 @@ class LendingSetsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update lending_set" do
     patch lending_set_url(@lending_set), params: { lending_set:
-      { customer_id: @lending_set.customer_id, lend_start_date: @lending_set.lend_start_date, lending_status_id: @lending_set.lending_status_id, memo: @lending_set.memo, return_date: @lending_set.return_date, return_deadline_date: @lending_set.return_deadline_date }
-    }
+      { customer_id: @lending_set.customer_id, lend_start_date: @lending_set.lend_start_date, lending_status_id: @lending_set.lending_status_id, memo: @lending_set.memo, return_date: @lending_set.return_date, return_deadline_date: @lending_set.return_deadline_date } }
     assert_redirected_to lending_set_url(@lending_set)
   end
 

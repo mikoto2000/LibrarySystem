@@ -137,8 +137,7 @@ class NdcCategoriesControllerTest < ActionDispatch::IntegrationTest
 
   test "should update ndc_category" do
     patch ndc_category_url(@ndc_category), params: { ndc_category:
-      { name: @ndc_category.name, number: @ndc_category.number }
-    }
+      { name: @ndc_category.name, number: @ndc_category.number } }
     assert_redirected_to ndc_category_url(@ndc_category)
   end
 

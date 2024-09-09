@@ -115,8 +115,7 @@ class BookStocksControllerTest < ActionDispatch::IntegrationTest
   test "should create book_stock" do
     assert_difference("BookStock.count") do
       post book_stocks_url, params: { book_stock:
-        { book_master_id: @book_stock.book_master_id, book_stock_status_id: @book_stock.book_stock_status_id, memo: @book_stock.memo }
-      }
+        { book_master_id: @book_stock.book_master_id, book_stock_status_id: @book_stock.book_stock_status_id, memo: @book_stock.memo } }
     end
 
     assert_redirected_to book_stock_url(BookStock.last)
@@ -134,8 +133,7 @@ class BookStocksControllerTest < ActionDispatch::IntegrationTest
 
   test "should update book_stock" do
     patch book_stock_url(@book_stock), params: { book_stock:
-      { book_master_id: @book_stock.book_master_id, book_stock_status_id: @book_stock.book_stock_status_id, memo: @book_stock.memo }
-    }
+      { book_master_id: @book_stock.book_master_id, book_stock_status_id: @book_stock.book_stock_status_id, memo: @book_stock.memo } }
     assert_redirected_to book_stock_url(@book_stock)
   end
 

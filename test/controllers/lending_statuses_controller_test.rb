@@ -116,8 +116,7 @@ class LendingStatusesControllerTest < ActionDispatch::IntegrationTest
 
   test "should update lending_status" do
     patch lending_status_url(@lending_status), params: { lending_status:
-      { name: @lending_status.name }
-    }
+      { name: @lending_status.name } }
     assert_redirected_to lending_status_url(@lending_status)
   end
 

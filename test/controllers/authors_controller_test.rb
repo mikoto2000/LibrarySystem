@@ -117,8 +117,7 @@ class AuthorsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update author" do
     patch author_url(@author), params: { author:
-      { name: @author.name }
-    }
+      { name: @author.name } }
     assert_redirected_to author_url(@author)
   end
 
