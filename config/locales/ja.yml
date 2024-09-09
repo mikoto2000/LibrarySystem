@@ -95,6 +95,7 @@ ja:
         author: 著者
         publication_date: 発行日
         ndc_category_id: 書籍分類
+        ndc_category: 書籍分類
         created_at: 作成日時
         updated_at: 更新日時
       lending_status:
@@ -112,14 +113,19 @@ ja:
         updated_at: 更新日時
       book_stock:
         book_master_id: 書籍
+        book_master: 書籍
         book_stock_status_id: 在庫状態
+        book_stock_status: 在庫状態
         memo: 備考
         created_at: 作成日時
         updated_at: 更新日時
       lending_set:
         customer_id: 顧客
+        customer: 顧客
         title: 貸出タイトル
+        book_stocks: 貸出書籍
         lending_status_id: 貸出ステータス
+        lending_status: 貸出ステータス
         lend_start_date: 貸出開始日
         return_deadline_date: 返却期限
         return_date: 返却日
