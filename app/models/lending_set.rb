@@ -5,6 +5,12 @@ class LendingSet < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     ["book_stocks", "customer", "lending", "lending_status"]
   end
+
+  validates :book_stocks, presence: true
+  validates :lend_start_date, presence: true, date: true
+  validates :return_deadline_date, presence: true, date: { after: :lend_start_date }
+  validates :return_date, date: { allow_blank: true }
+
   belongs_to :customer
   belongs_to :lending_status
 
