@@ -15,7 +15,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_07_081710) do
   enable_extension "plpgsql"
 
   create_table "authors", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -30,17 +30,18 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_07_081710) do
   end
 
   create_table "book_masters", force: :cascade do |t|
-    t.string "isbn"
-    t.string "title"
-    t.date "publication_date"
+    t.string "isbn", null: false
+    t.string "title", null: false
+    t.date "publication_date", null: false
     t.bigint "ndc_category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["isbn"], name: "index_book_masters_on_isbn", unique: true
     t.index ["ndc_category_id"], name: "index_book_masters_on_ndc_category_id"
   end
 
   create_table "book_stock_statuses", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -56,8 +57,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_07_081710) do
   end
 
   create_table "customers", force: :cascade do |t|
-    t.string "name"
-    t.string "email_address"
+    t.string "name", null: false
+    t.string "email_address", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -65,8 +66,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_07_081710) do
   create_table "lending_sets", force: :cascade do |t|
     t.bigint "customer_id", null: false
     t.bigint "lending_status_id", null: false
-    t.date "lend_start_date"
-    t.date "return_deadline_date"
+    t.date "lend_start_date", null: false
+    t.date "return_deadline_date", null: false
     t.date "return_date"
     t.text "memo"
     t.datetime "created_at", null: false
@@ -76,7 +77,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_07_081710) do
   end
 
   create_table "lending_statuses", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -91,8 +92,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_07_081710) do
   end
 
   create_table "ndc_categories", force: :cascade do |t|
-    t.string "name"
-    t.integer "number"
+    t.string "name", null: false
+    t.integer "number", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
