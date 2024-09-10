@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   resources :book_stocks
   resources :book_stock_statuses
   resources :authors
+  resources :authors, except: %w[new] do
+    collection { post :bulk_insert }
+  end
   resources :book_masters
   resources :ndc_categories
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

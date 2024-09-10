@@ -1,3 +1,5 @@
+require "./app/services/csv/csv_parser"
+
 class AuthorsController < ApplicationController
   include Pagy::Backend
   before_action :set_author, only: %i[show edit update destroy]
@@ -50,6 +52,19 @@ class AuthorsController < ApplicationController
     redirect_to authors_url, notice: t("controller.destroy.success", model: Author.model_name.human)
   end
 
+  # POST /author_bulk_insert
+  def bulk_insert
+    errors = Author.csv_import(params[:file], parser, { "名前" => "name" }, {})
+
+    if errors.empty?
+      flash.notice = t("controller.create.success", model: Author.model_name.human)
+    else
+      flash.alert = errors
+    end
+
+    redirect_to authors_url
+  end
+
   private
 
     # Use callbacks to share common setup or constraints between actions.
@@ -61,5 +76,9 @@ class AuthorsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def author_params
       params.require(:author).permit(:name)
+    end
+
+    def parser
+      Csv::CsvParser
     end
 end

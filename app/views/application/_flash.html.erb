@@ -1,0 +1,19 @@
+<% if notice %>
+  <div class="alert alert-dismissible">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <%= notice %>
+  </div>
+<% end %>
+
+<% if alert %>
+  <div class="alert alert-dismissible" style="color: red">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <h2><%= t("errors.template.header", model: model.model_name.human, count: flash.alert.count) %></h2>
+
+    <ul>
+    <% flash.alert.each do |error| %>
+      <li><%= error %></li>
+    <%- end -%>
+    </ul>
+  </div>
+<% end %>
