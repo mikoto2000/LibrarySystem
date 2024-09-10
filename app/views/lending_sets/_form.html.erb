@@ -36,7 +36,13 @@
     <div class="ps-2">
       <%= form.collection_select(
             :book_stock_ids,
-            BookStock.all.map {|bs| [bs.id, bs.id.to_s + ":" + bs.book_master.title]},
+            BookStock
+              .joins(:book_stock_status)
+              # 貸し出せないものは非表示
+              .where("book_stock_status_id = 1")
+                # ただし、この LendingSet で貸し出しているものは表示したい
+                .or(BookStock.where(book_stock_status_id: @lending_set.book_stocks.map{|bs| bs.book_stock_status.id}))
+              .map {|bs| [bs.id, bs.id.to_s + ":" + bs.book_master.title]},
             :first,
             :last,
             { multiple: true }
