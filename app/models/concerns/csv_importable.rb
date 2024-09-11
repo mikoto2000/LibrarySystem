@@ -37,7 +37,7 @@ module CsvImportable
       # エラーが無ければ bulk insert 実行
       # rubocop:disable Rails/SkipsModelValidations
       # `collect_validate_errors` にてバリデーション済みなので警告を抑制
-      insert_all(csv_records.map(&:model)) if errors.empty?
+      # insert_all(csv_records.map(&:model)) if errors.empty?
       # rubocop:enable Rails/SkipsModelValidations
 
       errors
@@ -49,7 +49,6 @@ module CsvImportable
 
       # バリデーションを実行し、エラーがあればエラーメッセージを返却用配列へ格納
       model_with_lineno.each do |mwl|
-        pp mwl
         model = create(mwl.model)
         is_valid = model.validate
 
