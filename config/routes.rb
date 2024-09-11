@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   resources :lending_sets
   resources :lending_statuses
   resources :customers
+  resources :customers, except: %w[new] do
+    collection { post :bulk_insert }
+  end
   resources :book_stocks
   resources :book_stock_statuses
   resources :authors

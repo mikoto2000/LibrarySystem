@@ -63,13 +63,9 @@ module Csv
       # ==== Return:
       # id が見つかった場合は id を返却、見つからなかった場合は value をそのまま返却
       def convert_value(header, value)
-        @logger.debug(self.class.name) { "👺 #{header}, #{value}" }
 
         converted_value =
           if @association_config.key? header
-            @logger.debug(self.class.name) { "👺 #{@association_config[header]}" }
-            @logger.debug(self.class.name) { @association_config[header].key?(:is_many) }
-            @logger.debug(self.class.name) { @association_config[header][:is_many] }
             if @association_config[header].key?(:is_many) && @association_config[header][:is_many]
               splited_value = value.split("|")
               splited_value.map {|v|

@@ -30,7 +30,6 @@ module CsvImportable
     def csv_import(file, parser, header_config, type_convert_config, association_config)
       # CSV から目的のモデルインスタンスを生成
       csv_records = parser.new(Rails.logger, header_config, type_convert_config, association_config).call(file)
-      puts csv_records[0]
 
       # バリデーションを実行
       errors = collect_validate_errors(csv_records)
