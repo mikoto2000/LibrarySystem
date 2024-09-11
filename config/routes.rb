@@ -6,6 +6,9 @@ Rails.application.routes.draw do
     collection { post :bulk_insert }
   end
   resources :book_stocks
+  resources :book_stocks, except: %w[new] do
+    collection { post :bulk_insert }
+  end
   resources :book_stock_statuses
   resources :authors
   resources :authors, except: %w[new] do

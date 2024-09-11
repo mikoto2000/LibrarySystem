@@ -51,6 +51,30 @@ class BookStocksController < ApplicationController
     redirect_to book_stocks_url, notice: t("controller.destroy.success", model: BookStock.model_name.human)
   end
 
+  # POST /book_stocks_bulk_insert
+  def bulk_insert
+    if params[:file].nil?
+      redirect_to book_stocks_url
+      return
+    end
+
+    errors = BookStock.csv_import(
+      params[:file],
+      parser,
+      { "書籍" => "book_master_id", "在庫状態" => "book_stock_status_id", "備考" => "memo"},
+      {},
+      {"書籍" => { parent: BookMaster, search_column_name: :title}, "在庫状態" => { parent: BookStockStatus, search_column_name: :name}}
+    )
+
+    if errors.empty?
+      flash.notice = t("controller.create.success", model: BookStock.model_name.human)
+    else
+      flash.alert = errors
+    end
+
+    redirect_to book_stocks_url
+  end
+
   private
 
     # Use callbacks to share common setup or constraints between actions.
@@ -64,5 +88,9 @@ class BookStocksController < ApplicationController
     # Only allow a list of trusted parameters through.
     def book_stock_params
       params.require(:book_stock).permit(:book_master_id, :book_stock_status_id, :memo)
+    end
+
+    def parser
+      Csv::CsvParser
     end
 end
