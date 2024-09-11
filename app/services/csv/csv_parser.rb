@@ -72,7 +72,6 @@ module Csv
                 get_id_by_value(@association_config[header][:parent], @association_config[header][:search_column_name], v).to_i
               }
             else
-              @logger.debug(self.class.name) { "qwerty" }
               get_id_by_value(@association_config[header][:parent], @association_config[header][:search_column_name], value)
             end
           else
