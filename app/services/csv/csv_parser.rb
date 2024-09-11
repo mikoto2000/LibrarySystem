@@ -1,8 +1,13 @@
 module Csv
   class CsvParser
-    def initialize(logger = Logger.new($stdin), header_config = {}, association_config = {})
+    def initialize(
+        logger = Logger.new($stdin),
+        header_config = {},
+        type_convert_config = {},
+        association_config = {})
       @logger = logger
       @header_config = header_config
+      @type_convert_config = type_convert_config
       @association_config = association_config
     end
 
@@ -58,12 +63,29 @@ module Csv
       # ==== Return:
       # id が見つかった場合は id を返却、見つからなかった場合は value をそのまま返却
       def convert_value(header, value)
+        @logger.debug(self.class.name) { "👺 #{header}, #{value}" }
+
         converted_value =
           if @association_config.key? header
-            get_id_by_value(@association_config[header][:parent], @association_config[header][:search_column_name], value)
+            @logger.debug(self.class.name) { "👺 #{@association_config[header]}" }
+            @logger.debug(self.class.name) { @association_config[header].key?(:is_many) }
+            @logger.debug(self.class.name) { @association_config[header][:is_many] }
+            if @association_config[header].key?(:is_many) && @association_config[header][:is_many]
+              splited_value = value.split("|")
+              splited_value.map {|v|
+                get_id_by_value(@association_config[header][:parent], @association_config[header][:search_column_name], v).to_i
+              }
+            else
+              @logger.debug(self.class.name) { "qwerty" }
+              get_id_by_value(@association_config[header][:parent], @association_config[header][:search_column_name], value)
+            end
           else
             value
           end
+
+        if @type_convert_config.key? header
+          converted_value = @type_convert_config[header].call(converted_value)
+        end
 
         @logger.debug(self.class.name) { "convert value: { origin: #{value}, converted #{converted_value} }" }
 

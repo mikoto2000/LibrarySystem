@@ -1,4 +1,6 @@
 class BookMaster < ApplicationRecord
+  include CsvImportable
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[isbn title publication_date ndc_category_id author_id id created_at updated_at]
   end

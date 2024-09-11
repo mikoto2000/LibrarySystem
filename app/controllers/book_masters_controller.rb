@@ -50,6 +50,30 @@ class BookMastersController < ApplicationController
     redirect_to book_masters_url, notice: t("controller.destroy.success", model: BookMaster.model_name.human)
   end
 
+  # POST /book_masters_bulk_insert
+  def bulk_insert
+    if params[:file].nil?
+      redirect_to book_masters_url
+      return
+    end
+
+    errors = BookMaster.csv_import(
+      params[:file],
+      parser,
+      { "タイトル" => "title", "ISBN" => "isbn", "著者" => "author_ids", "発行日" => "publication_date", "書籍分類" => "ndc_category_id"},
+      {},
+      {"著者" => { parent: Author, search_column_name: :name, is_many: true}, "書籍分類" => { parent: NdcCategory, search_column_name: :name}}
+    )
+
+    if errors.empty?
+      flash.notice = t("controller.create.success", model: BookMaster.model_name.human)
+    else
+      flash.alert = errors
+    end
+
+    redirect_to book_masters_url
+  end
+
   private
 
     # Use callbacks to share common setup or constraints between actions.
@@ -62,5 +86,9 @@ class BookMastersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def book_master_params
       params.require(:book_master).permit(:isbn, :title, :publication_date, :ndc_category_id, { author_ids: [] })
+    end
+
+    def parser
+      Csv::CsvParser
     end
 end

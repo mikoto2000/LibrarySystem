@@ -54,7 +54,12 @@ class AuthorsController < ApplicationController
 
   # POST /author_bulk_insert
   def bulk_insert
-    errors = Author.csv_import(params[:file], parser, { "名前" => "name" }, {})
+    if params[:file].nil?
+      redirect_to authors_url
+      return
+    end
+
+    errors = Author.csv_import(params[:file], parser, { "名前" => "name" }, {}, {})
 
     if errors.empty?
       flash.notice = t("controller.create.success", model: Author.model_name.human)

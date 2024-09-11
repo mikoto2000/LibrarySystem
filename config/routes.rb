@@ -9,6 +9,9 @@ Rails.application.routes.draw do
     collection { post :bulk_insert }
   end
   resources :book_masters
+  resources :book_masters, except: %w[new] do
+    collection { post :bulk_insert }
+  end
   resources :ndc_categories
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
