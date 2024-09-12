@@ -9,6 +9,11 @@
       <%= render partial: "flash", locals: {model: Author} %>
     </div>
 
+    <%= link_to(
+          BookStock.model_name.human + " CSV 出力",
+          export_book_stocks_path(format: :csv),
+        ) %>
+
     <%= form_tag bulk_insert_book_stocks_path, multipart: true do %>
       <%= label_tag "CSVインポート:" %>
       <%= file_field_tag :file, accept: "text/csv" %>

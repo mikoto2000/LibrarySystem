@@ -2,20 +2,23 @@ Rails.application.routes.draw do
   resources :lending_sets
   resources :lending_statuses
   resources :customers
-  resources :customers, except: %w[new] do
+  resources :customers, except: %w[import] do
     collection { post :bulk_insert }
   end
+  resources :book_stocks, except: %w[export] do
+    collection { get :export }
+  end
   resources :book_stocks
-  resources :book_stocks, except: %w[new] do
+  resources :book_stocks, except: %w[import] do
     collection { post :bulk_insert }
   end
   resources :book_stock_statuses
   resources :authors
-  resources :authors, except: %w[new] do
+  resources :authors, except: %w[import] do
     collection { post :bulk_insert }
   end
   resources :book_masters
-  resources :book_masters, except: %w[new] do
+  resources :book_masters, except: %w[import] do
     collection { post :bulk_insert }
   end
   resources :ndc_categories

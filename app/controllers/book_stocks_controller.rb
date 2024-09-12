@@ -75,6 +75,22 @@ class BookStocksController < ApplicationController
     redirect_to book_stocks_url
   end
 
+  # GET /book_stocks/export
+  def export
+    @book_stocks = BookStock
+      .eager_load(lending_sets: :customer)
+      .eager_load(:book_master)
+      .eager_load(:book_stock_status)
+      .order("book_stocks.id, lending_sets.created_at desc")
+    respond_to do |format|
+      format.csv do
+        send_data render_to_string, filename: 'book_stocks.csv', type: :csv
+        @q = @book_stocks.ransack(params[:q])
+        @q.sorts = "id asc" if @q.sorts.empty?
+      end
+    end
+  end
+
   private
 
     # Use callbacks to share common setup or constraints between actions.
