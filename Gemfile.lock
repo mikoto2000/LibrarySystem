@@ -111,12 +111,12 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     drb (2.2.1)
-    erb_lint (0.4.0)
+    erb_lint (0.6.0)
       activesupport
       better_html (>= 2.0.1)
       parser (>= 2.7.1.4)
       rainbow
-      rubocop
+      rubocop (>= 1)
       smart_properties
     erubi (1.13.0)
     globalid (1.2.1)
