@@ -17,4 +17,12 @@ class BookMaster < ApplicationRecord
   belongs_to :ndc_category
   has_many :book_author_relationship
   has_many :authors, through: :book_author_relationship
+
+  before_save :normalize_isbn
+
+  private
+
+  def normalize_isbn
+    self.isbn = isbn.delete('-')
+  end
 end

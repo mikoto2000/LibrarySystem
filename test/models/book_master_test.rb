@@ -65,4 +65,10 @@ class BookMasterTest < ActiveSupport::TestCase
     book = BookMaster.new(isbn: "978-0-306-40615-8", title: "Test Book", publication_date: Date.today, ndc_category: ndc_categories(:one))
     assert_not book.valid?
   end
+
+  test "normalize ISBN before save" do
+    book = BookMaster.new(isbn: "978-0-306-40615-7", title: "Test Book", publication_date: Date.today, ndc_category: ndc_categories(:one))
+    book.save
+    assert_equal "9780306406157", book.isbn
+  end
 end
