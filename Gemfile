@@ -68,3 +68,5 @@ gem "rubocop-i18n", group: "development"
 gem "rubocop-thread_safety", group: "development"
 gem "erb_lint", group: "development"
 gem "date_validator"
+
+gem "isbn_validation", "~> 1.2"

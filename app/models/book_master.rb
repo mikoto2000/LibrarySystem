@@ -9,10 +9,7 @@ class BookMaster < ApplicationRecord
     %w[authors book_author_relationship ndc_category]
   end
 
-  # TODO: ちゃんとした判定ロジックを作る
-  VALID_ISBN_PATTERN = /[0-9\-]+/
-
-  validates :isbn, presence: true, uniqueness: true, format: { with: VALID_ISBN_PATTERN }
+  validates :isbn, presence: true, uniqueness: true, isbn_format: true
   validates :title, presence: true
   validates :publication_date, presence: true
   validates :ndc_category, presence: true

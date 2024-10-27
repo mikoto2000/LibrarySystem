@@ -131,6 +131,8 @@ GEM
     irb (1.14.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
+    isbn_validation (1.2.2)
+      activerecord (>= 3)
     jbuilder (2.12.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
@@ -329,6 +331,7 @@ DEPENDENCIES
   debug
   erb_lint
   importmap-rails
+  isbn_validation
   jbuilder
   pagy
   pg (~> 1.1)
@@ -351,4 +354,4 @@ DEPENDENCIES
   web-console
 
 BUNDLED WITH
-   2.5.11
+   2.5.16
